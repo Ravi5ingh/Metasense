@@ -1,0 +1,20 @@
+<DnaLibrary RuntimeVersion="v4.0" Name="Ribbon Tests" Language="C#">
+
+  <!-- Some images that can be used in the Ribbon ui -->
+  <!--<Image Name="M" Path="M.png" Pack="true" />-->
+  <ExternalLibrary Path="Metasense.dll" />
+  <CustomUI>
+    <customUI xmlns='http://schemas.microsoft.com/office/2006/01/customui' loadImage='LoadImage'>
+      <ribbon>
+        <tabs>
+          <tab id='MetasenseTab' label='Metasense'>
+			<group id="HelperGroup">
+				<button id="View" label="View" size="large" onAction="ViewObject" imageMso="DataViewGallery" />
+			</group>
+          </tab>
+        </tabs>
+      </ribbon>
+    </customUI>
+  </CustomUI>
+
+</DnaLibrary>
