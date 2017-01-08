@@ -51,6 +51,12 @@
     <Compile Include="ExcelArg.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Functions.cs" />
+    <Compile Include="ObjectSpace\LoadObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjectSpace\LoadObjectForm.Designer.cs">
+      <DependentUpon>LoadObjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ObjectSpace\LoadObjectForm.resx">
+      <DependentUpon>LoadObjectForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectSpace\ObjectSpaceViewer.resx">
       <DependentUpon>ObjectSpaceViewer.cs</DependentUpon>
     </EmbeddedResource>

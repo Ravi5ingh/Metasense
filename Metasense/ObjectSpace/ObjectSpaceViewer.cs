@@ -16,5 +16,11 @@ namespace Metasense.ObjectSpace
         {
             InitializeComponent();
         }
+
+        private void loadObjectButton_Click(object sender, EventArgs e)
+        {
+            var objLoader = new LoadObjectForm();
+            objLoader.Visible = true;
+        }
     }
 }
