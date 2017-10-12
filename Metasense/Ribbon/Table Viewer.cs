@@ -19,6 +19,37 @@ namespace Metasense.Ribbon
             InitializeComponent();
         }
 
+        public void ShowTable(TableNew table)
+        {
+            var data = table.Peek();
+        }
+
+        public void ShowTableNew(TableNew table)
+        {
+            var data = table.Peek();
+            var numCols = data.GetLength(1);
+            for (var j = 0; j < numCols; j++)
+            {
+                var column = new DataGridViewTextBoxColumn();
+                column.HeaderText = data[0, j].ToString();
+                column.Name = "Column [" + data[0, j].ToString() + "]";
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                viewGrid.Columns.Add(column);
+            }
+
+            var numRows = data.GetLength(0);
+            for (var i = 1; i < numRows; i++)
+            {
+                var row = new Object[numCols];
+                for (var j = 0; j < numCols; j++)
+                {
+                    row[j] = data[i, j];
+                }
+                viewGrid.Rows.Add(row);
+            }
+            viewGrid.Rows.Add("...");
+        }
+
         /// <summary>
         /// Render the given table
         /// </summary>

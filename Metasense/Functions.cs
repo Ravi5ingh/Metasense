@@ -42,11 +42,11 @@ namespace Metasense
         {
             var fileInfo = new FileInfo(location);
 
-            Table table;
+            TableNew table;
             switch (fileInfo.Extension.ToUpper())
             {
                 case ".CSV":
-                    table = Table.LoadFromCSV(fileInfo);
+                    table = TableNew.LoadFromCSV(fileInfo);
                     break;
                 default:
                     return ("File extension : " + fileInfo.Extension + " not recognized");

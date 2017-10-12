@@ -20,11 +20,11 @@ namespace Metasense.Ribbon
             if (activeCellText.ToUpper().Contains("TBL"))
             {
                 //Get the table
-                var table = (Table)ObjectStore.Get(activeCellText);
+                var table = (TableNew)ObjectStore.Get(activeCellText);
 
                 //Show it
                 var viewer = new TableViewerForm();
-                viewer.ShowTable(table);
+                viewer.ShowTableNew(table);
                 viewer.Visible = true;
             }
             else

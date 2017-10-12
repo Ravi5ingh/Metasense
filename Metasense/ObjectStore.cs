@@ -23,7 +23,8 @@ namespace Metasense
         private static Dictionary<object, string> objectSuffixMappings = new Dictionary<object, string>
         {
             {typeof(BasicNetwork), "NNT"},
-            {typeof(Table), "TBL"}
+            {typeof(Table), "TBL"},
+            {typeof(TableNew), "TBL" }
         };
 
 

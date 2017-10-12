@@ -78,6 +78,7 @@
       <DependentUpon>Table Viewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Table.cs" />
+    <Compile Include="TableNew.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
