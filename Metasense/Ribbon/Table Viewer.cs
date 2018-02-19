@@ -36,7 +36,7 @@ namespace Metasense.Ribbon
                 viewGrid.Columns.Add(column);
             }
 
-            var numRows = Math.Min(tableRows, data.GetLength(0));
+            var numRows = System.Math.Min(tableRows, data.GetLength(0));
             for(var i = 1; i < numRows; i++)
             {
                 var row = new Object[numCols];

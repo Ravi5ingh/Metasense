@@ -31,14 +31,16 @@ namespace Metasense
         /// <param name="value">The input value</param>
         /// <returns></returns>
         [ExcelFunction(
-            Name = "ML_LoadTable",
+            Name = "MTS_LoadTable",
             Description = "Loads a Table",
-            Category = "ML Functions")]
+            Category = "Functions")]
         public static string LoadTable(
             [ExcelArgument(Name = "Name", Description = "The name of the table to be loaded")]
             string name,
             [ExcelArgument(Name = "Location", Description = "The path of the file")]
-            string location)
+            string location,
+            [ExcelArgument(Name = "Delimiter", Description = "The delimiting character (Default : ',')")]
+            string delimiter)
         {
             var fileInfo = new FileInfo(location);
 
@@ -46,7 +48,8 @@ namespace Metasense
             switch (fileInfo.Extension.ToUpper())
             {
                 case ".CSV":
-                    table = Table.LoadFromCSV(fileInfo);
+                    var resolveDelimiter = Arg(delimiter, "Delimiter").AsChar(',');
+                    table = Table.LoadFromCSV(fileInfo, resolveDelimiter);
                     break;
                 default:
                     return ("File extension : " + fileInfo.Extension + " not recognized");
@@ -56,14 +59,40 @@ namespace Metasense
         }
 
         /// <summary>
+        /// The Gaussian function
+        /// </summary>
+        /// <param name="value">The input value</param>
+        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_Gaussian",
+            Description = "Performs the gaussian function on the inputs",
+            Category = "Functions")]
+        public static double Gaussian(
+            [ExcelArgument(Name = "a", Description = "The leading co-efficient")]
+            object a,
+            [ExcelArgument(Name = "µ", Description = "The mean of the gaussian")]
+            object µ,
+            [ExcelArgument(Name = "σ", Description = "The standard devation of the gaussian")]
+            object σ,
+            [ExcelArgument(Name = "x", Description = "The input value")]
+            object x)
+        {
+            var resolvedA = Arg(a, "Leading co-efficient").AsDouble();
+            var resolvedMean = Arg(µ, "Mean").AsDouble();
+            var resolvedStdDev = Arg(σ, "Standard Deviation").AsDouble();
+            var resolvedX = Arg(x, "x Value").AsDouble();
+            return Gaussian(resolvedA, resolvedMean, resolvedStdDev, resolvedX);
+        }
+
+        /// <summary>
         /// This function multiplies the input by 2
         /// </summary>
         /// <param name="value">The input value</param>
         /// <returns></returns>
         [ExcelFunction(
-            Name = "ML_Times2",
+            Name = "MTS_Times2",
             Description = "Joins a string to a number",
-            Category = "ML Functions")]
+            Category = "Functions")]
         public static double TimeTwo(double value)
         {
             return value * 2;
@@ -79,7 +108,7 @@ namespace Metasense
         /// <param name="errorToleranceXl"></param>
         /// <returns></returns>
         [ExcelFunction(
-            Name = "ML_TrainNetwork",
+            Name = "MTS_TrainNetwork",
             Description = "Trains a neural network using Levenberg-Marquardt and stores it",
             Category = "ML Functions")]
         public static object TrainNetwork(
@@ -186,7 +215,7 @@ namespace Metasense
         /// <param name="inputXl">The inputs</param>
         /// <returns></returns>
         [ExcelFunction(
-            Name = "ML_ComputeWithNetwork",
+            Name = "MTS_ComputeWithNetwork",
             Description = "Performs a computation with the given neural network",
             Category = "ML Functions")]
         public static object ComputeWithNetwork(

@@ -51,6 +51,7 @@
     <Compile Include="ExcelArg.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Functions.cs" />
+    <Compile Include="Math\Functions.cs" />
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
     </Compile>

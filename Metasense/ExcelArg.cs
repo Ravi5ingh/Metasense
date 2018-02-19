@@ -54,6 +54,17 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Resolve as a char
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public char AsChar(char defaultValue = ' ')
+        {
+            var str = AsString();
+            return IsEmpty || str == null ? defaultValue : str[0];
+        }
+
+        /// <summary>
         /// Get the argument as a string
         /// </summary>
         /// <returns></returns>
