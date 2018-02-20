@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Metasense.Ribbon
+namespace Metasense.Excel.Ribbon
 {
     public partial class TableViewerForm : Form
     {

@@ -65,11 +65,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Ribbon\Ribbon.cs" />
-    <Compile Include="Ribbon\Table Viewer.cs">
+    <Compile Include="Excel\Ribbon\Ribbon.cs" />
+    <Compile Include="Excel\Ribbon\Table Viewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ribbon\Table Viewer.Designer.cs">
+    <Compile Include="Excel\Ribbon\Table Viewer.Designer.cs">
       <DependentUpon>Table Viewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Table.cs" />
@@ -112,7 +112,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ribbon\Table Viewer.resx">
+    <EmbeddedResource Include="Excel\Ribbon\Table Viewer.resx">
       <DependentUpon>Table Viewer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace Metasense.Ribbon
+﻿namespace Metasense.Excel.Ribbon
 {
     partial class TableViewerForm
     {
