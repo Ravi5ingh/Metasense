@@ -9,7 +9,7 @@ namespace Metasense.Math
     /// <summary>
     /// Math functions
     /// </summary>
-    public static class Functions
+    public static class MathFunctions
     {
         /// <summary>
         /// The Gaussian function

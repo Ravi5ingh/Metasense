@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Metasense.Math;
 
 
 namespace Metasense
@@ -81,7 +82,7 @@ namespace Metasense
             var resolvedMean = Arg(µ, "Mean").AsDouble();
             var resolvedStdDev = Arg(σ, "Standard Deviation").AsDouble();
             var resolvedX = Arg(x, "x Value").AsDouble();
-            return Gaussian(resolvedA, resolvedMean, resolvedStdDev, resolvedX);
+            return MathFunctions.Gaussian(resolvedA, resolvedMean, resolvedStdDev, resolvedX);
         }
 
         /// <summary>
