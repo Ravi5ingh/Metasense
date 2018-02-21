@@ -17,14 +17,14 @@ namespace Metasense
         /// </summary>]
         public Object[,] Data { get; }
 
-        public static Table LoadFromCSV(FileInfo fileInfo)
+        public static Table LoadFromCSV(FileInfo fileInfo, char delimiter = ',')
         {
             var data = new List<Object[]>();
 
             var lines = File.ReadAllLines(fileInfo.FullName);
             foreach (var line in lines)
             {
-                var elements = line.Split(',').Cast<Object>().ToArray();
+                var elements = line.Split(delimiter).Cast<Object>().ToArray();
                 data.Add(elements);
             }
 

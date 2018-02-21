@@ -3,7 +3,7 @@ using ExcelDna.Integration.CustomUI;
 using Microsoft.Office.Interop.Excel;
 using Metasense;
 
-namespace Metasense.Ribbon
+namespace Metasense.Excel.Ribbon
 {
     [ComVisible(true)]
     public class Ribbon : ExcelRibbon

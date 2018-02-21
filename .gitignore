@@ -3,3 +3,4 @@
 Installer/Release/*
 Metasense/bin/*
 Metasense/obj/*
+.vs/*

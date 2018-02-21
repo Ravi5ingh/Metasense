@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metasense", "Metasense\Metasense.csproj", "{1796AAF2-DC17-43EA-AEF3-A0A1FACB9CA7}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{622BECD4-A44A-4EF4-87D3-9C8AAA382F0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,11 @@ Global
 		{1796AAF2-DC17-43EA-AEF3-A0A1FACB9CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1796AAF2-DC17-43EA-AEF3-A0A1FACB9CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1796AAF2-DC17-43EA-AEF3-A0A1FACB9CA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{622BECD4-A44A-4EF4-87D3-9C8AAA382F0C}.Debug|Any CPU.ActiveCfg = Debug
-		{622BECD4-A44A-4EF4-87D3-9C8AAA382F0C}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F6A8F1C-9D12-4EEF-84B1-C13EA5F8CDB3}
 	EndGlobalSection
 EndGlobal

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Metasense.Ribbon
+namespace Metasense.Excel.Ribbon
 {
     public partial class TableViewerForm : Form
     {
@@ -36,7 +36,7 @@ namespace Metasense.Ribbon
                 viewGrid.Columns.Add(column);
             }
 
-            var numRows = Math.Min(tableRows, data.GetLength(0));
+            var numRows = System.Math.Min(tableRows, data.GetLength(0));
             for(var i = 1; i < numRows; i++)
             {
                 var row = new Object[numCols];
