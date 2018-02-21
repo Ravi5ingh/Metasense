@@ -80,7 +80,7 @@ namespace Metasense
         /// <returns></returns>
         public int AsInt(int? defaultValue = null)
         {
-            return IsEmpty && defaultValue.HasValue ? defaultValue.Value : (int) argument;
+            return IsEmpty && defaultValue.HasValue ? defaultValue.Value : (int)((double)argument);
         }
 
         /// <summary>

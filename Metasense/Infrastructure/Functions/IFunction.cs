@@ -1,7 +1,7 @@
 ﻿
 using Metasense.Infrastructure;
 
-namespace Metasense.MetasenseFunctions
+namespace Metasense.Infrastructure.Functions
 {
     /// <summary>
     /// The template for every function exposed in Excel

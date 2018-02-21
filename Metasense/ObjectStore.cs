@@ -40,7 +40,7 @@ namespace Metasense
             {
                 suffix = "OBJ";
             }
-            var retVal = name + "::" + suffix;
+            var retVal = name + "::" + suffix + ";" + GetTimeStamp();
             if (store.ContainsKey(retVal))
             {
                 store.Remove(retVal);
@@ -57,6 +57,12 @@ namespace Metasense
         public static object Get(string name)
         {
             return store[name];
+        }
+
+        private static string GetTimeStamp()
+        {
+            var now = DateTime.Now;
+            return $"{now.Hour}:{now.Minute}:{now.Second}";
         }
     }
 }

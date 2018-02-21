@@ -7,23 +7,13 @@ using System.Threading.Tasks;
 using ExcelDna.Integration;
 using Metasense.Infrastructure;
 
-namespace Metasense.MetasenseFunctions
+namespace Metasense.Infrastructure.Functions
 {
     /// <summary>
     /// Class to execute different function types safely
     /// </summary>
     public static class FunctionRunner
-    {
-        /// <summary>
-        /// A register of flags to store which individual function calls have had their function wizard run
-        /// </summary>
-        private static IDictionary<ExcelReference, bool> functionWizardRunRegister = new Dictionary<ExcelReference, bool>();
-        
-        /// <summary>
-        /// This construct caches the results of individual function calls in the sheet
-        /// </summary>
-        private static IDictionary<ExcelReference, string> functionCache = new Dictionary<ExcelReference, string>();
-        
+    {   
         /// <summary>
         /// Run the function and return the output or the message of the error
         /// </summary>
@@ -34,41 +24,46 @@ namespace Metasense.MetasenseFunctions
         {
             try
             {
-                //Get the function type
+                // get the function type
                 var functionTypeId = (int) function.FunctionType;
 
-                //Register the function in the FW register if necessary
-                var callingRange = Util.GetCallingRange();
-                if (!functionWizardRunRegister.ContainsKey(callingRange))
-                {
-                    functionWizardRunRegister[callingRange] = false;
-                }
-
-                //Reset the FW flag if in function wizard
+                // get fields
                 var isInFunctionWizard = ExcelDnaUtil.IsInFunctionWizard();
-                functionWizardRunRegister[callingRange] = isInFunctionWizard;
+                var callingRange = Util.GetCallingRange();
 
+                object retVal;
                 switch (functionTypeId)
                 {
                     //Light
                     case 1:
-                        return Execute(function);
-                    
+                        retVal = Execute(function);
+                        break;
                     //Heavy
                     case 2:
-                        return isInFunctionWizard ? "..." : Execute(function);
-
+                        retVal = isInFunctionWizard ? "..." : Execute(function);
+                        break;
                     //Sticky
                     case 4:
-                        return functionWizardRunRegister[callingRange] ? Execute(function) : functionCache[callingRange];
-                    
+                        retVal = FunctionWizardRegister.GetValue(callingRange)
+                            ? Execute(function)
+                            : CalculationCache.GetValue(callingRange, () => Execute(function));
+                        break;
                     //Sticky and Heavy
                     case 6:
-                        return isInFunctionWizard ? "..." : functionWizardRunRegister[callingRange] ? Execute(function) : functionCache[callingRange];
+                        retVal = isInFunctionWizard ? "..." :
+                            FunctionWizardRegister.GetValue(callingRange) ? 
+                                Execute(function) :
+                                CalculationCache.GetValue(callingRange, () => Execute(function));
+                        break;
 
                     default:
                         throw new Exception($"INTERNAL ERROR : {function.FunctionType} is not a function type that can be processed");
                 }
+
+                // update the FW regsiter
+                FunctionWizardRegister.Update(callingRange, isInFunctionWizard);
+
+                return retVal;
 
             }
             catch (Exception e)

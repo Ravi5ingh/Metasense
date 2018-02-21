@@ -5,6 +5,7 @@ using Encog.Neural.Networks;
 using Encog.Neural.Networks.Layers;
 using Encog.Neural.Networks.Training.Lma;
 using Metasense.Infrastructure;
+using Metasense.Infrastructure.Functions;
 
 namespace Metasense.MetasenseFunctions.Neural
 {

@@ -51,11 +51,13 @@
     <Compile Include="ExcelArg.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
-    <Compile Include="MetasenseFunctions\BaseFunction.cs" />
-    <Compile Include="MetasenseFunctions\FunctionRunner.cs" />
+    <Compile Include="Infrastructure\Functions\BaseFunction.cs" />
+    <Compile Include="Infrastructure\Functions\CalculationCache.cs" />
+    <Compile Include="Infrastructure\Functions\FunctionRunner.cs" />
+    <Compile Include="Infrastructure\Functions\FunctionWizardRegister.cs" />
     <Compile Include="MetasenseFunctions\Functions.cs" />
     <Compile Include="Math\MathFunctions.cs" />
-    <Compile Include="MetasenseFunctions\IFunction.cs" />
+    <Compile Include="Infrastructure\Functions\IFunction.cs" />
     <Compile Include="MetasenseFunctions\Neural\TrainNetwork.cs" />
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
