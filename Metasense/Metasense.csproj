@@ -50,7 +50,8 @@
   <ItemGroup>
     <Compile Include="ExcelArg.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Functions.cs" />
+    <Compile Include="MetasenseFunctions\BaseFunction.cs" />
+    <Compile Include="MetasenseFunctions\Functions.cs" />
     <Compile Include="Math\MathFunctions.cs" />
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
@@ -73,7 +74,7 @@
       <DependentUpon>Table Viewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Table.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="Infrastructure\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -122,6 +123,7 @@
   <ItemGroup>
     <None Include="Resources\tableImage.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
