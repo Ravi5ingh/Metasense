@@ -15,10 +15,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Metasense.Infrastructure;
 using Metasense.Math;
 
 
-namespace Metasense
+namespace Metasense.MetasenseFunctions
 {
     /// <summary>
     /// Main class exposing all the functions
@@ -100,6 +101,22 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Gets the time
+        /// </summary>
+        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_GetTime",
+            Description = "Gets the time",
+            Category = "ML Functions")]
+        public static object GetTime()
+        {
+            if (!ExcelDnaUtil.IsInFunctionWizard() && CalculationCache.HasResult(Util.GetCallingRange()))
+            {
+
+            }
+        }
+
+        /// <summary>
         /// Trains a basic neural network using Levenberg-Marquardt
         /// </summary>
         /// <param name="nameXl"></param>
@@ -138,7 +155,6 @@ namespace Metasense
             {
                 try
                 {
-
                     //Parameter Resolution
                     var name = Arg(nameXl, "Name").AsString();
                     var inputActivFuncName = Arg(inputActivationFuncXl, "Input Activation Function").AsString("LINEAR");

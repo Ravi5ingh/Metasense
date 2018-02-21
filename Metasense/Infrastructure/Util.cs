@@ -4,12 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExcelDna.Integration;
 
-namespace Metasense
+namespace Metasense.Infrastructure
 {
     public static class Util
     {
 
+        /// <summary>
+        /// The Excel range from which the current function is being called. This will only return a value when invoked from within the code path of an invoked function
+        /// </summary>
+        /// <returns></returns>
+        public static ExcelReference GetCallingRange()
+        {
+            return XlCall.Excel(XlCall.xlfCaller) as ExcelReference;
+        }
+        
         /// <summary>
         /// Instantiate an activation function based on the string reference
         /// </summary>
