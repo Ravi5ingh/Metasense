@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.IO;
 using Metasense.Infrastructure;
 using Metasense.Math;
+using Metasense.MetasenseFunctions.Neural;
 
 
 namespace Metasense.MetasenseFunctions
@@ -110,10 +111,46 @@ namespace Metasense.MetasenseFunctions
             Category = "ML Functions")]
         public static object GetTime()
         {
-            if (!ExcelDnaUtil.IsInFunctionWizard() && CalculationCache.HasResult(Util.GetCallingRange()))
-            {
+            return null;
+        }
 
-            }
+        public static object TrainNetwork(
+            [ExcelArgument(Name = "Name", Description = "The name of the neural network to be built")]
+            object nameXl,
+            [ExcelArgument(Name = "Input Activation Function", Description = "The activation function for the input layer")]
+            object inputActivationFuncXl,
+            [ExcelArgument(Name = "Input Layer has bias?", Description = "Whether or not the input layer has a bias")]
+            object inputHasBiasXl,
+            [ExcelArgument(Name = "Hidden Layer Config", Description = "A structured range detailing the network configuration")]
+            object hiddenConfigXl,
+            [ExcelArgument(Name = "Output Activation Function", Description = "The activation function for the output layer")]
+            object outputActivationFuncXl,
+            [ExcelArgument(Name = "Output Layer has bias?", Description = "Whether or not the output layer has a bias")]
+            object outputHasBiasXl,
+            [ExcelArgument(Name = "Inputs", Description = "The traning data inputs")]
+            object inputsXl,
+            [ExcelArgument(Name = "Targets", Description = "The training data target")]
+            object targetsXl,
+            [ExcelArgument(Name = "Error Tolerance", Description = "The error tolerance to train within")]
+            object errorToleranceXl,
+            [ExcelArgument(Name = "Epoch Cut-off", Description = "The maximum number of epoch to train for")]
+            object epochLimitXl)
+        {
+            var function = new TrainNetwork(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
+            {
+                Name = Arg(nameXl, "Name"),
+                InputActivationFunction = Arg(inputActivationFuncXl, "Input Activation Function"),
+                InputHasBias = Arg(inputHasBiasXl, "Input Has Bias"),
+                HiddenLayerConfig = Arg(hiddenConfigXl, "Hidden Layer Configuration"),
+                OutputActivationFunction = Arg(outputActivationFuncXl, "Output Activation Function"),
+                OutputHasBias = Arg(outputHasBiasXl, "Output Bias Flag"),
+                Inputs = Arg(inputsXl, "Input Values"),
+                Targets = Arg(targetsXl, "Target Values"),
+                ErrorTolerance = Arg(errorToleranceXl, "Error Tolerance"),
+                EpochLimit = Arg(epochLimitXl, "Epoch Limit")
+            };
+
+            return FunctionRunner.Run(function);
         }
 
         /// <summary>
@@ -129,7 +166,7 @@ namespace Metasense.MetasenseFunctions
             Name = "MTS_TrainNetwork",
             Description = "Trains a neural network using Levenberg-Marquardt and stores it",
             Category = "ML Functions")]
-        public static object TrainNetwork(
+        public static object TrainNetwork_Old(
             [ExcelArgument(Name = "Name", Description = "The name of the neural network to be built")]
             object nameXl,
             [ExcelArgument(Name = "Input Activation Function", Description = "The activation function for the input layer")]

@@ -1,18 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Metasense.Infrastructure;
 
 namespace Metasense.MetasenseFunctions
 {
-    public abstract class BaseFunction<T>
+    public abstract class BaseFunction<T> : IFunction<T>
     {
+        /// <summary>
+        /// Th function type
+        /// </summary>
+        public Enums.FunctionType FunctionType { get; }
+
+        /// <summary>
+        /// .ctor
+        /// </summary>
+        /// <param name="functionType"></param>
+        protected BaseFunction(Enums.FunctionType functionType)
+        {
+            FunctionType = functionType;
+        }
+
+        /// <inheritdoc />
+        public abstract void ResolveInputs();
+
+        /// <inheritdoc />
         public abstract T Calculate();
 
-        public virtual object Render()
+        /// <inheritdoc />
+        public virtual object Render(T resultObject)
         {
-            return Calculate();
+            return resultObject;
         }
     }
 }

@@ -74,6 +74,16 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Get the argument as an int
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public int AsInt(int? defaultValue = null)
+        {
+            return IsEmpty && defaultValue.HasValue ? defaultValue.Value : (int) argument;
+        }
+
+        /// <summary>
         /// Get the argument as a double
         /// </summary>
         /// <returns></returns>
