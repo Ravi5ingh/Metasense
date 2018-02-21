@@ -114,6 +114,14 @@ namespace Metasense.MetasenseFunctions
             return null;
         }
 
+        /// <summary>
+        /// Gets the time
+        /// </summary>
+        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_TrainNetwork",
+            Description = "Trains a neural network and stores it in memory",
+            Category = "ML Functions")]
         public static object TrainNetwork(
             [ExcelArgument(Name = "Name", Description = "The name of the neural network to be built")]
             object nameXl,
@@ -151,115 +159,6 @@ namespace Metasense.MetasenseFunctions
             };
 
             return FunctionRunner.Run(function);
-        }
-
-        /// <summary>
-        /// Trains a basic neural network using Levenberg-Marquardt
-        /// </summary>
-        /// <param name="nameXl"></param>
-        /// <param name="netConfigurationXl"></param>
-        /// <param name="inputsXl"></param>
-        /// <param name="targetsXl"></param>
-        /// <param name="errorToleranceXl"></param>
-        /// <returns></returns>
-        [ExcelFunction(
-            Name = "MTS_TrainNetwork",
-            Description = "Trains a neural network using Levenberg-Marquardt and stores it",
-            Category = "ML Functions")]
-        public static object TrainNetwork_Old(
-            [ExcelArgument(Name = "Name", Description = "The name of the neural network to be built")]
-            object nameXl,
-            [ExcelArgument(Name = "Input Activation Function", Description = "The activation function for the input layer")]
-            object inputActivationFuncXl,
-            [ExcelArgument(Name = "Input Layer has bias?", Description = "Whether or not the input layer has a bias")]
-            object inputHasBiasXl,
-            [ExcelArgument(Name = "Hidden Layer Config", Description = "A structured range detailing the network configuration")]
-            object hiddenConfigXl,
-            [ExcelArgument(Name = "Output Activation Function", Description = "The activation function for the output layer")]
-            object outputActivationFuncXl,
-            [ExcelArgument(Name = "Output Layer has bias?", Description = "Whether or not the output layer has a bias")]
-            object outputHasBiasXl,
-            [ExcelArgument(Name = "Inputs", Description = "The traning data inputs")]
-            object inputsXl,
-            [ExcelArgument(Name = "Targets", Description = "The training data target")]
-            object targetsXl,
-            [ExcelArgument(Name = "Error Tolerance", Description = "The error tolerance to train within")]
-            object errorToleranceXl,
-            [ExcelArgument(Name = "Epoch Cut-off", Description = "The maximum number of epoch to train for")]
-            object epochLimitXl)
-        {
-            if (!ExcelDnaUtil.IsInFunctionWizard())
-            {
-                try
-                {
-                    //Parameter Resolution
-                    var name = Arg(nameXl, "Name").AsString();
-                    var inputActivFuncName = Arg(inputActivationFuncXl, "Input Activation Function").AsString("LINEAR");
-                    var inputHasBias = Arg(inputHasBiasXl, "Input has bias").AsBoolean(true);
-                    var hiddenConfig = Arg(hiddenConfigXl, "Hidden Layer Configuration").As2DArray<object>();
-                    var outputActiveFuncName = Arg(outputActivationFuncXl, "Output Activation Function").AsString("LINEAR");
-                    var outputHasBias = Arg(outputHasBiasXl, "Output has bias").AsBoolean(true);
-                    var inputs = Arg(inputsXl, "Inputs").As2DArray<double>();
-                    var targets = Arg(targetsXl, "Targets").As2DArray<double>();
-                    var tolerance = Arg(errorToleranceXl, "Error Tolerance").AsDouble();
-                    var epochs = Arg(epochLimitXl, "Epochs").AsDouble();
-
-                    //Network
-                    var network = new BasicNetwork();
-                    var inputNeuronCount = inputs.GetLength(1);
-                    var outputNeuronCount = targets.GetLength(1);
-
-                    //Input Layer
-                    var inputActivationFunction = Util.GetActivationFunction(inputActivFuncName);
-                    var inputLayer = new BasicLayer(inputActivationFunction, inputHasBias, inputNeuronCount);
-                    network.AddLayer(inputLayer);
-
-                    //Hidden Layer
-                    if (hiddenConfig.GetLength(1) != 2)
-                    {
-                        throw new ArgumentException("Net Configuration is a 2 column table of values of neuron count and activation function type, with each row representing a separate layer");
-                    }
-                    else
-                    {
-                        for (var row = 0; row < hiddenConfig.GetLength(0); row++)
-                        {
-                            var activationFunc = Util.GetActivationFunction(hiddenConfig[row, 1].ToString());
-                            var layer = new BasicLayer(activationFunc, true, Convert.ToInt32(hiddenConfig[row, 0]));
-
-                            network.AddLayer(layer);
-                        }
-                    }
-
-                    //Output layer
-                    var outputActivationFunction = Util.GetActivationFunction(outputActiveFuncName);
-                    var outputLayer = new BasicLayer(outputActivationFunction, outputHasBias, outputNeuronCount);
-                    network.AddLayer(outputLayer);
-
-                    //Training
-                    network.Structure.FinalizeStructure();
-                    network.Reset();
-                    var dataSet = new BasicMLDataSet(inputs.AsJagged(), targets.AsJagged());
-                    var trainlm = new LevenbergMarquardtTraining(network, dataSet);
-
-                    var epoch = 1;
-                    do
-                    {
-                        trainlm.Iteration();
-                        epoch++;
-                    } while (epoch < epochs && trainlm.Error > tolerance);
-
-                    //Add the network to the object store
-                    return ObjectStore.Add(name, network);
-                }
-                catch (Exception exp)
-                {
-                    return "#Err - " + exp.Message;
-                }
-            }
-            else
-            {
-                return "...";
-            }
         }
 
         /// <summary>

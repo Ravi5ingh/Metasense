@@ -64,7 +64,7 @@ namespace Metasense.MetasenseFunctions
                     
                     //Sticky and Heavy
                     case 6:
-                        return isInFunctionWizard ? "..." : functionWizardRunRegister[callingRange] ? functionCache[callingRange] : Execute(function);
+                        return isInFunctionWizard ? "..." : functionWizardRunRegister[callingRange] ? Execute(function) : functionCache[callingRange];
 
                     default:
                         throw new Exception($"INTERNAL ERROR : {function.FunctionType} is not a function type that can be processed");
