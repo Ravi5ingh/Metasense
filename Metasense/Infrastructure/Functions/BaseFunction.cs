@@ -13,7 +13,7 @@ namespace Metasense.Infrastructure.Functions
         /// .ctor
         /// </summary>
         /// <param name="functionType"></param>
-        protected BaseFunction(Enums.FunctionType functionType)
+        protected BaseFunction(Enums.FunctionType functionType = Enums.FunctionType.Light)
         {
             FunctionType = functionType;
         }

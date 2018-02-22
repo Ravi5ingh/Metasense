@@ -59,6 +59,7 @@
     <Compile Include="Math\MathFunctions.cs" />
     <Compile Include="Infrastructure\Functions\IFunction.cs" />
     <Compile Include="MetasenseFunctions\Neural\TrainNetwork.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\LoadTable.cs" />
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,7 +80,7 @@
     <Compile Include="Excel\Ribbon\Table Viewer.Designer.cs">
       <DependentUpon>Table Viewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Table.cs" />
+    <Compile Include="Infrastructure\Tabular\Table.cs" />
     <Compile Include="Infrastructure\Util.cs" />
   </ItemGroup>
   <ItemGroup>

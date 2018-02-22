@@ -19,6 +19,8 @@ using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Math;
 using Metasense.MetasenseFunctions.Neural;
+using Metasense.MetasenseFunctions.Tabular;
+using Metasense.Tabular;
 
 
 namespace Metasense.MetasenseFunctions
@@ -38,7 +40,7 @@ namespace Metasense.MetasenseFunctions
             Name = "MTS_LoadTable",
             Description = "Loads a Table",
             Category = "Functions")]
-        public static string LoadTable(
+        public static object LoadTable(
             [ExcelArgument(Name = "Name", Description = "The name of the table to be loaded")]
             string name,
             [ExcelArgument(Name = "Location", Description = "The path of the file")]
@@ -46,20 +48,14 @@ namespace Metasense.MetasenseFunctions
             [ExcelArgument(Name = "Delimiter", Description = "The delimiting character (Default : ',')")]
             string delimiter)
         {
-            var fileInfo = new FileInfo(location);
-
-            Table table;
-            switch (fileInfo.Extension.ToUpper())
+            var function = new LoadTable(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
             {
-                case ".CSV":
-                    var resolveDelimiter = Arg(delimiter, "Delimiter").AsChar(',');
-                    table = Table.LoadFromCSV(fileInfo, resolveDelimiter);
-                    break;
-                default:
-                    return ("File extension : " + fileInfo.Extension + " not recognized");
-            }
+                Name = Arg(name, "Table Name"),
+                Location = Arg(location, "File location"),
+                Delimiter = Arg(delimiter, "Delimiter")
+            };
 
-            return ObjectStore.Add(name, table);
+            return FunctionRunner.Run(function);
         }
 
         /// <summary>
@@ -100,19 +96,6 @@ namespace Metasense.MetasenseFunctions
         public static double TimeTwo(double value)
         {
             return value * 2;
-        }
-
-        /// <summary>
-        /// Gets the time
-        /// </summary>
-        /// <returns></returns>
-        [ExcelFunction(
-            Name = "MTS_GetTime",
-            Description = "Gets the time",
-            Category = "ML Functions")]
-        public static object GetTime()
-        {
-            return null;
         }
 
         /// <summary>

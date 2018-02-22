@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Metasense
+namespace Metasense.Tabular
 {
     /// <summary>
     /// Represents a table in Excel

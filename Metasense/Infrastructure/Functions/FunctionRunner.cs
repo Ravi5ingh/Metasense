@@ -31,37 +31,34 @@ namespace Metasense.Infrastructure.Functions
                 var isInFunctionWizard = ExcelDnaUtil.IsInFunctionWizard();
                 var callingRange = Util.GetCallingRange();
 
+                if (isInFunctionWizard)
+                {
+                    FunctionWizardRegister.Register(callingRange);
+                }
+
                 object retVal;
                 switch (functionTypeId)
                 {
                     //Light
                     case 1:
-                        retVal = Execute(function);
+                        retVal = ForceExecute(callingRange, function);
                         break;
                     //Heavy
                     case 2:
-                        retVal = isInFunctionWizard ? "..." : Execute(function);
+                        retVal = isInFunctionWizard ? "..." : ForceExecute(callingRange, function);
                         break;
                     //Sticky
                     case 4:
-                        retVal = FunctionWizardRegister.GetValue(callingRange)
-                            ? Execute(function)
-                            : CalculationCache.GetValue(callingRange, () => Execute(function));
+                        retVal = ExecuteSticky(callingRange, function);
                         break;
                     //Sticky and Heavy
                     case 6:
-                        retVal = isInFunctionWizard ? "..." :
-                            FunctionWizardRegister.GetValue(callingRange) ? 
-                                Execute(function) :
-                                CalculationCache.GetValue(callingRange, () => Execute(function));
+                        retVal = isInFunctionWizard ? "..." : ExecuteSticky(callingRange, function);
                         break;
 
                     default:
                         throw new Exception($"INTERNAL ERROR : {function.FunctionType} is not a function type that can be processed");
                 }
-
-                // update the FW regsiter
-                FunctionWizardRegister.Update(callingRange, isInFunctionWizard);
 
                 return retVal;
 
@@ -72,19 +69,31 @@ namespace Metasense.Infrastructure.Functions
             }
         }
 
-        /// <summary>
-        /// Peform the function execution
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="function"></param>
-        /// <returns></returns>
-        private static object Execute<T>(IFunction<T> function)
+        private static object ExecuteSticky<T>(ExcelReference callingRange, IFunction<T> function)
         {
-            function.ResolveInputs();
-
-            var rawOutput = function.Calculate();
-
-            return function.Render(rawOutput);
+            var retVal = CalculationCache.GetValue(callingRange, function, FunctionWizardRegister.GetValue(callingRange));
+            FunctionWizardRegister.DeRegister(callingRange);
+            return retVal;
         }
+
+        private static object ForceExecute<T>(ExcelReference callingRange, IFunction<T> function)
+        {
+            return CalculationCache.GetValue(callingRange, function, true);
+        }
+
+        ///// <summary>
+        ///// Peform the function execution
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="function"></param>
+        ///// <returns></returns>
+        //private static object Execute<T>(IFunction<T> function)
+        //{
+        //    function.ResolveInputs();
+
+        //    var rawOutput = function.Calculate();
+
+        //    return function.Render(rawOutput);
+        //}
     }
 }

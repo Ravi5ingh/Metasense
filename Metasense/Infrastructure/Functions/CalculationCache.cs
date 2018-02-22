@@ -8,15 +8,30 @@ namespace Metasense.Infrastructure.Functions
     {
         private static IDictionary<ExcelReference, object> cache = new Dictionary<ExcelReference, object>();
 
-        public static object GetValue(ExcelReference callingRange, Func<object> resultGetter)
+        public static object GetValue<T>(ExcelReference callingRange, IFunction<T> function, bool reCalculate = false)
         {
-            if (cache.ContainsKey(callingRange))
+            if (!reCalculate && cache.ContainsKey(callingRange))
             {
                 return cache[callingRange];
             }
 
-            cache[callingRange] = resultGetter();
-            return resultGetter();
+            cache[callingRange] = Execute(function);
+            return cache[callingRange];
+        }
+
+        /// <summary>
+        /// Peform the function execution
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        private static object Execute<T>(IFunction<T> function)
+        {
+            function.ResolveInputs();
+
+            var rawOutput = function.Calculate();
+
+            return function.Render(rawOutput);
         }
     }
 }

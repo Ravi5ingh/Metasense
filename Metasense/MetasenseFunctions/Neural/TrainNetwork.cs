@@ -142,7 +142,7 @@ namespace Metasense.MetasenseFunctions.Neural
         /// .ctor
         /// </summary>
         /// <param name="functionType"></param>
-        public TrainNetwork(Enums.FunctionType functionType) : base(functionType)
+        public TrainNetwork(Enums.FunctionType functionType = Enums.FunctionType.Light) : base(functionType)
         {
         }
     }

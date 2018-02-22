@@ -18,9 +18,14 @@ namespace Metasense.Infrastructure.Functions
             return functionWizardRunRegister[callingRange];
         }
 
-        public static void Update(ExcelReference callingRange, bool value)
+        public static void Register(ExcelReference callingRange)
         {
-            functionWizardRunRegister[callingRange] = value;
+            functionWizardRunRegister[callingRange] = true;
+        }
+
+        public static void DeRegister(ExcelReference callingRange)
+        {
+            functionWizardRunRegister[callingRange] = false;
         }
     }
 }
