@@ -2,6 +2,7 @@
 using ExcelDna.Integration.CustomUI;
 using Microsoft.Office.Interop.Excel;
 using Metasense;
+using Metasense.Tabular;
 
 namespace Metasense.Excel.Ribbon
 {

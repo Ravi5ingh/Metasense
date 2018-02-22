@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Metasense.Infrastructure.Tabular;
+using Metasense.Tabular;
 
 namespace Metasense
 {
@@ -23,7 +25,8 @@ namespace Metasense
         private static Dictionary<object, string> objectSuffixMappings = new Dictionary<object, string>
         {
             {typeof(BasicNetwork), "NNT"},
-            {typeof(Table), "TBL"}
+            {typeof(Table), "TBL"},
+            {typeof(TimeSeries), "TSR"}
         };
 
 

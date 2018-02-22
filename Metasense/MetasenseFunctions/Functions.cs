@@ -59,6 +59,43 @@ namespace Metasense.MetasenseFunctions
         }
 
         /// <summary>
+        /// This function load a time series into memory
+        /// </summary>
+        /// <param name="nameXl">The name to be given to the time series</param>
+        /// <param name="fileXl">The file with the raw ASCII data</param>
+        /// <param name="delimiterXl">The delimiter</param>
+        /// <param name="dateColumnIndexXl">The index of the column with date values</param>
+        /// <param name="valueColumnIndexXl">The index of the column with the actual values</param>
+        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_LoadTimeSeries",
+            Description = "Loads a Time Series",
+            Category = "Functions")]
+        public static object LoadTimeSeries(
+            [ExcelArgument(Name = "Name", Description = "The name to be given to the loaded time series")]
+            object nameXl,
+            [ExcelArgument(Name = "File", Description = "The path of the file")]
+            object fileXl,
+            [ExcelArgument(Name = "Delimiter", Description = "The delimiting character (Default : ',')")]
+            object delimiterXl,
+            [ExcelArgument(Name = "Date Column Index", Description = "The index of the date column")]
+            object dateColumnIndexXl,
+            [ExcelArgument(Name = "Value Column Index", Description = "The index of the value column")]
+            object valueColumnIndexXl)
+        {
+            var function = new LoadTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
+            {
+                Name = Arg(nameXl, "Name"),
+                FileName = Arg(fileXl, "File Path"),
+                Delimiter = Arg(delimiterXl, "Delimiter"),
+                DateColumnIndex = Arg(dateColumnIndexXl, "Date Column Index"),
+                ValueColumnIndex = Arg(valueColumnIndexXl, "Value Column Index")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        /// <summary>
         /// The Gaussian function
         /// </summary>
         /// <param name="value">The input value</param>

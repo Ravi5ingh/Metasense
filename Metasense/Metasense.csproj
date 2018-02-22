@@ -55,11 +55,13 @@
     <Compile Include="Infrastructure\Functions\CalculationCache.cs" />
     <Compile Include="Infrastructure\Functions\FunctionRunner.cs" />
     <Compile Include="Infrastructure\Functions\FunctionWizardRegister.cs" />
+    <Compile Include="Infrastructure\Tabular\TimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Functions.cs" />
     <Compile Include="Math\MathFunctions.cs" />
     <Compile Include="Infrastructure\Functions\IFunction.cs" />
     <Compile Include="MetasenseFunctions\Neural\TrainNetwork.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTable.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\LoadTimeSeries.cs" />
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
     </Compile>
