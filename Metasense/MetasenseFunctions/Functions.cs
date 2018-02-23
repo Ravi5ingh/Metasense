@@ -1,26 +1,12 @@
-﻿using Encog.Engine.Network.Activation;
-using Encog.ML.Data;
-using Encog.ML.Data.Basic;
-using Encog.Neural.Data.Basic;
+﻿using Encog.ML.Data.Basic;
 using Encog.Neural.Networks;
-using Encog.Neural.Networks.Layers;
-using Encog.Neural.Networks.Training.Lma;
-using Encog.Neural.Networks.Training.Propagation.Resilient;
-using Encog.Util.Simple;
 using ExcelDna.Integration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
 using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Math;
 using Metasense.MetasenseFunctions.Neural;
 using Metasense.MetasenseFunctions.Tabular;
-using Metasense.Tabular;
 
 
 namespace Metasense.MetasenseFunctions
@@ -90,6 +76,67 @@ namespace Metasense.MetasenseFunctions
                 Delimiter = Arg(delimiterXl, "Delimiter"),
                 DateColumnIndex = Arg(dateColumnIndexXl, "Date Column Index"),
                 ValueColumnIndex = Arg(valueColumnIndexXl, "Value Column Index")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        /// <summary>
+        /// Render a loaded time series in Excel
+        /// </summary>
+        /// <param name="timeSeriesXl"></param>
+        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_ShowTimeSeries",
+            Description = "Shows a loaded Time Series",
+            Category = "Functions")]
+        public static object ShowTimeSeries(
+            [ExcelArgument(Name = "Time Series", Description = "The time series object to show")]
+            object timeSeriesXl,
+            [ExcelArgument(Name = "Show Headers", Description = "Wether or not to show headers (Default : True)")]
+            object showHeadersXl)
+        {
+            var function = new ShowTimeSeries(Enums.FunctionType.Light)
+            {
+                TimeSeries = Arg(timeSeriesXl, "Time Series"),
+                ShowHeaders = Arg(showHeadersXl, "Show Headers")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        /// <summary>
+        /// This function load a time series into memory
+        /// </summary>
+        /// <param name="nameXl">The name to be given to the time series</param>
+        /// <param name="fileXl">The file with the raw ASCII data</param>
+        /// <param name="delimiterXl">The delimiter</param>
+        /// <param name="dateColumnIndexXl">The index of the column with date values</param>
+        /// <param name="valueColumnIndexXl">The index of the column with the actual values</param>
+        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_BucketTimeSeries",
+            Description = "Loads a Time Series",
+            Category = "Functions")]
+        public static object BucketTimeSeries(
+            [ExcelArgument(Name = "Name", Description = "The name to be given to the new time series")]
+            object nameXl,
+            [ExcelArgument(Name = "Input Time Series", Description = "The path of the file")]
+            object inputTimeSeriesXl,
+            [ExcelArgument(Name = "Start Time", Description = "The starting point to take")]
+            object startTimeXl,
+            [ExcelArgument(Name = "End Time", Description = "The end point to take")]
+            object endTimeXl,
+            [ExcelArgument(Name = "Bucket Size", Description = "The size of the intervals out of which the buckets are made. This is in seconds")]
+            object bucketSizeXl)
+        {
+            var function = new BucketTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
+            {
+                Name = Arg(nameXl, "Name"),
+                InputTimeSeries = Arg(inputTimeSeriesXl, "Input Time Series"),
+                StartDateTime = Arg(startTimeXl, "Start Date"),
+                EndDateTime = Arg(endTimeXl, "End Date"),
+                IntervalBucketSize = Arg(bucketSizeXl, "Bucket Size")
             };
 
             return FunctionRunner.Run(function);

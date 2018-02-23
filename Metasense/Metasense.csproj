@@ -51,17 +51,22 @@
     <Compile Include="ExcelArg.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
+    <Compile Include="Infrastructure\ExtensionMethods.cs" />
     <Compile Include="Infrastructure\Functions\BaseFunction.cs" />
     <Compile Include="Infrastructure\Functions\CalculationCache.cs" />
     <Compile Include="Infrastructure\Functions\FunctionRunner.cs" />
     <Compile Include="Infrastructure\Functions\FunctionWizardRegister.cs" />
+    <Compile Include="Infrastructure\SortedList.cs" />
     <Compile Include="Infrastructure\Tabular\TimeSeries.cs" />
+    <Compile Include="Infrastructure\Tabular\TSPoint.cs" />
     <Compile Include="MetasenseFunctions\Functions.cs" />
     <Compile Include="Math\MathFunctions.cs" />
     <Compile Include="Infrastructure\Functions\IFunction.cs" />
     <Compile Include="MetasenseFunctions\Neural\TrainNetwork.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\BucketTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTable.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTimeSeries.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\ShowTimeSeries.cs" />
     <Compile Include="ObjectSpace\ObjectSpaceViewer.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -103,6 +103,16 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Parse as DateTime
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public DateTime AsDateTime(DateTime? defaultValue = null)
+        {
+            return IsEmpty && defaultValue.HasValue ? defaultValue.Value : DateTime.FromOADate(AsDouble());
+        }
+
+        /// <summary>
         /// Resolve the argument as a 1D data structure
         /// </summary>
         /// <typeparam name="T"></typeparam>

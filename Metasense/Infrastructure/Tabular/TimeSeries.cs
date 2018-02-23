@@ -1,28 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Metasense.Infrastructure.Tabular
 {
     public class TimeSeries
     {
-        private SortedList<DateTime, double> _ts;
+        public int Count => _ts.Count;
+
+        private SortedList<TSPoint> _ts;
 
         private TimeSeries()
         {
-            _ts = new SortedList<DateTime, double>();
+            _ts = new SortedList<TSPoint>();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="TSPoint"/> at the given index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public TSPoint this[int index]
+        {
+            get => _ts[index];
+            set => _ts[index] = value;
         }
 
         public void Add(DateTime dateTime, double value)
         {
-            if (_ts.ContainsKey(dateTime))
+            var fakePoint = new TSPoint {Time = dateTime};
+            if (_ts.ContainsComparableValue(fakePoint, out var index))
             {
-                _ts[dateTime] += value;
+                var oldPoint = _ts[index];
+                _ts[index]  = new TSPoint{Time = dateTime, Value = oldPoint.Value + value};
             }
             else
             {
-                _ts.Add(dateTime, value);
+                _ts.Add(new TSPoint {Time = dateTime, Value = value});
             }
+        }
+
+        public TimeSeries Bucket(DateTime start, DateTime end, long intervalInSeconds)
+        {
+            if (end <= start)
+            {
+                throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
+            }
+
+            var retVal = new TimeSeries();
+            var croppedSeries = _ts.Where(point => point.Time >= start && point.Time <= end);
+            foreach (var point in croppedSeries)
+            {
+                var rem = (int)(point.Time - start).TotalSeconds % intervalInSeconds;
+                var tp = point.Time.AddSeconds(-rem);
+                retVal.Add(tp, point.Value);
+            }
+
+            return retVal;
         }
 
         public static TimeSeries LoadFromFile(
