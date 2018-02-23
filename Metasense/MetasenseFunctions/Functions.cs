@@ -6,6 +6,7 @@ using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Math;
 using Metasense.MetasenseFunctions.Neural;
+using Metasense.MetasenseFunctions.Statistical;
 using Metasense.MetasenseFunctions.Tabular;
 
 
@@ -16,12 +17,6 @@ namespace Metasense.MetasenseFunctions
     /// </summary>
     public class Functions
     {
-
-        /// <summary>
-        /// This function loads a Table from a file location
-        /// </summary>
-        /// <param name="value">The input value</param>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_LoadTable",
             Description = "Loads a Table",
@@ -44,15 +39,6 @@ namespace Metasense.MetasenseFunctions
             return FunctionRunner.Run(function);
         }
 
-        /// <summary>
-        /// This function load a time series into memory
-        /// </summary>
-        /// <param name="nameXl">The name to be given to the time series</param>
-        /// <param name="fileXl">The file with the raw ASCII data</param>
-        /// <param name="delimiterXl">The delimiter</param>
-        /// <param name="dateColumnIndexXl">The index of the column with date values</param>
-        /// <param name="valueColumnIndexXl">The index of the column with the actual values</param>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_LoadTimeSeries",
             Description = "Loads a Time Series",
@@ -81,11 +67,6 @@ namespace Metasense.MetasenseFunctions
             return FunctionRunner.Run(function);
         }
 
-        /// <summary>
-        /// Render a loaded time series in Excel
-        /// </summary>
-        /// <param name="timeSeriesXl"></param>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_ShowTimeSeries",
             Description = "Shows a loaded Time Series",
@@ -105,15 +86,6 @@ namespace Metasense.MetasenseFunctions
             return FunctionRunner.Run(function);
         }
 
-        /// <summary>
-        /// This function load a time series into memory
-        /// </summary>
-        /// <param name="nameXl">The name to be given to the time series</param>
-        /// <param name="fileXl">The file with the raw ASCII data</param>
-        /// <param name="delimiterXl">The delimiter</param>
-        /// <param name="dateColumnIndexXl">The index of the column with date values</param>
-        /// <param name="valueColumnIndexXl">The index of the column with the actual values</param>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_BucketTimeSeries",
             Description = "Loads a Time Series",
@@ -142,11 +114,6 @@ namespace Metasense.MetasenseFunctions
             return FunctionRunner.Run(function);
         }
 
-        /// <summary>
-        /// The Gaussian function
-        /// </summary>
-        /// <param name="value">The input value</param>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_Gaussian",
             Description = "Performs the gaussian function on the inputs",
@@ -168,11 +135,25 @@ namespace Metasense.MetasenseFunctions
             return MathFunctions.Gaussian(resolvedA, resolvedMean, resolvedStdDev, resolvedX);
         }
 
-        /// <summary>
-        /// This function multiplies the input by 2
-        /// </summary>
-        /// <param name="value">The input value</param>
-        /// <returns></returns>
+        [ExcelFunction(
+            Name = "MTS_FitGaussian",
+            Description = "Fits a Gaussian to a scatter plot given the x and y values. Returns the mean, standard deviation, and a value",
+            Category = "Functions")]
+        public static object FitGaussian(
+            [ExcelArgument(Name = "x Values", Description = "The x co-ordinates of the scatter plot")]
+            object xValuesXl,
+            [ExcelArgument(Name = "y Values", Description = "The y co-ordinates of the scatter plot")]
+            object yValuesXl)
+        {
+            var function = new FitGaussian(Enums.FunctionType.Light)
+            {
+                XValues = Arg(xValuesXl, "x Value"),
+                YValues = Arg(yValuesXl, "y Values")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
         [ExcelFunction(
             Name = "MTS_Times2",
             Description = "Joins a string to a number",
@@ -182,10 +163,6 @@ namespace Metasense.MetasenseFunctions
             return value * 2;
         }
 
-        /// <summary>
-        /// Gets the time
-        /// </summary>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_TrainNetwork",
             Description = "Trains a neural network and stores it in memory",
@@ -229,12 +206,6 @@ namespace Metasense.MetasenseFunctions
             return FunctionRunner.Run(function);
         }
 
-        /// <summary>
-        /// Run a computation with a neural network
-        /// </summary>
-        /// <param name="networkXl">The network</param>
-        /// <param name="inputXl">The inputs</param>
-        /// <returns></returns>
         [ExcelFunction(
             Name = "MTS_ComputeWithNetwork",
             Description = "Performs a computation with the given neural network",
