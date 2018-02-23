@@ -46,7 +46,7 @@ namespace Metasense.MetasenseFunctions.Tabular
             {
                 if (numCols < 2)
                 {
-                    throw new ArgumentException("This function needs to be called from a range with at-least 2 columsn");
+                    throw new ArgumentException("This function needs to be called from a range with at-least 2 columns");
                 }
 
                 var startIndex = 0;
@@ -59,9 +59,10 @@ namespace Metasense.MetasenseFunctions.Tabular
                 
                 for (var i = startIndex; i < retVal.GetLength(0); i++)
                 {
-                    if (i < timeSeries.Count)
+                    var tsIndex = i - startIndex;
+                    if (tsIndex < timeSeries.Count)
                     {
-                        var point = timeSeries[i];
+                        var point = timeSeries[tsIndex];
                         retVal[i, 0] = point.Time;
                         retVal[i, 1] = point.Value;
                     }

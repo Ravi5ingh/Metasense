@@ -12,5 +12,10 @@ namespace Metasense.Infrastructure.Tabular
             return Time < other.Time ? -1 :
                 Time > other.Time ? 1 : 0;
         }
+
+        public override string ToString()
+        {
+            return $"{Time} -- {Value}";
+        }
     }
 }
