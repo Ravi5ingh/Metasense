@@ -41,6 +41,21 @@ namespace Metasense.Infrastructure.Tabular
             }
         }
 
+        public TimeSeries Crop(DateTime start, DateTime end)
+        {
+            if (end <= start)
+            {
+                throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
+            }
+            var retVal = new TimeSeries();
+            var croppedSeries = _ts.Where(point => point.Time >= start && point.Time <= end);
+            foreach (var point in croppedSeries)
+            {
+                retVal.Add(point.Time, point.Value);
+            }
+            return retVal;
+        }
+
         public TimeSeries Bucket(DateTime start, DateTime end, long intervalInSeconds)
         {
             if (end <= start)

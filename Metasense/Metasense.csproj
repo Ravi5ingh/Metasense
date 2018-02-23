@@ -65,6 +65,7 @@
     <Compile Include="MetasenseFunctions\Neural\TrainNetwork.cs" />
     <Compile Include="MetasenseFunctions\Statistical\FitGaussian.cs" />
     <Compile Include="MetasenseFunctions\Tabular\BucketTimeSeries.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\CropTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTable.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\ShowTimeSeries.cs" />

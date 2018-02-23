@@ -87,6 +87,31 @@ namespace Metasense.MetasenseFunctions
         }
 
         [ExcelFunction(
+            Name = "MTS_CropTimeSeries",
+            Description = "Crops the given time series and returns a new one",
+            Category = "Functions")]
+        public static object CropTimeSeries(
+            [ExcelArgument(Name = "Name", Description = "The name to be given to the new time series")]
+            object nameXl,
+            [ExcelArgument(Name = "Input Time Series", Description = "The path of the file")]
+            object inputTimeSeriesXl,
+            [ExcelArgument(Name = "Start Time", Description = "The starting point to take")]
+            object startTimeXl,
+            [ExcelArgument(Name = "End Time", Description = "The end point to take")]
+            object endTimeXl)
+        {
+            var function = new CropTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
+            {
+                Name = Arg(nameXl, "Name"),
+                InputTimeSeries = Arg(inputTimeSeriesXl, "Input Time Series"),
+                Start = Arg(startTimeXl, "Start Date"),
+                End = Arg(endTimeXl, "End Date"),
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
             Name = "MTS_BucketTimeSeries",
             Description = "Loads a Time Series",
             Category = "Functions")]
