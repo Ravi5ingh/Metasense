@@ -180,6 +180,22 @@ namespace Metasense.MetasenseFunctions
         }
 
         [ExcelFunction(
+            Name = "MTS_Unique",
+            Description = "Gets the unique values in the given range",
+            Category = "Functions")]
+        public static object Unique(
+            [ExcelArgument(Name = "Input Range", Description = "The range of values to get unique values from")]
+            object inputRangeXl)
+        {
+            var function = new Unique(Enums.FunctionType.Light)
+            {
+                InputRange = Arg(inputRangeXl, "Input Range")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
             Name = "MTS_Times2",
             Description = "Joins a string to a number",
             Category = "Functions")]
