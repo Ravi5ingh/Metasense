@@ -8,6 +8,7 @@ using Metasense.Math;
 using Metasense.MetasenseFunctions.Neural;
 using Metasense.MetasenseFunctions.Statistical;
 using Metasense.MetasenseFunctions.Tabular;
+using Microsoft.Office.Interop.Excel;
 
 
 namespace Metasense.MetasenseFunctions
@@ -193,6 +194,16 @@ namespace Metasense.MetasenseFunctions
             };
 
             return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
+            Name = "MTS_CurrentPath",
+            Description = "Get the path of the current workbook",
+            Category = "Functions")]
+        public static object GetCurrentWorkbookPath()
+        {
+            var app = ((Application) ExcelDnaUtil.Application);
+            return $@"{app.ActiveWorkbook.Path}\{app.ActiveWorkbook.FullName}";
         }
 
         [ExcelFunction(
