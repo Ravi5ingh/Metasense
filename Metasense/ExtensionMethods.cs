@@ -60,6 +60,30 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Converts a set of arrays into a 2D array. The potential jagged-ness means some elements in the output will be the default value of <see cref="T"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerableOfArrays"></param>
+        /// <returns></returns>
+        public static T[,] As2DArray<T>(this IEnumerable<T[]> enumerableOfArrays)
+        {
+            var list = enumerableOfArrays.ToList();
+            var numRows = list.Count();
+            var numCols = list.Max(arr => arr.Length);
+            var retVal = new T[numRows, numCols];
+
+            for (var i = 0; i < numRows; i++)
+            {
+                for (var j = 0; i < list[i].Length; i++)
+                {
+                    retVal[i, j] = list[i][j];
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Aggregate the contents into a human readable string
         /// </summary>
         /// <param name="arr"></param>

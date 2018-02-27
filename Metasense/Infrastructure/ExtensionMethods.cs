@@ -13,5 +13,10 @@ namespace Metasense.Infrastructure
         {
             return callingRange.ColumnLast - callingRange.ColumnFirst + 1;
         }
+
+        public static bool IsNullOrEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
     }
 }

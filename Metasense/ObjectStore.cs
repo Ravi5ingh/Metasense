@@ -26,7 +26,8 @@ namespace Metasense
         {
             {typeof(BasicNetwork), "NNT"},
             {typeof(Table), "TBL"},
-            {typeof(TimeSeries), "TSR"}
+            {typeof(TimeSeries), "TSR"},
+            {typeof(SQLConnection), "SQL"}
         };
 
 
