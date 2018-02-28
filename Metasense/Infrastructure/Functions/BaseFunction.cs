@@ -1,5 +1,4 @@
-﻿using Metasense.Infrastructure;
-
+﻿
 namespace Metasense.Infrastructure.Functions
 {
     public abstract class BaseFunction<T> : IFunction<T>

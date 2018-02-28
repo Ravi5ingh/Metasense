@@ -1,6 +1,4 @@
 ﻿
-using Metasense.Infrastructure;
-
 namespace Metasense.Infrastructure.Functions
 {
     /// <summary>

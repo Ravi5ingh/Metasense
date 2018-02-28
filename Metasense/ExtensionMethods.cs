@@ -74,7 +74,7 @@ namespace Metasense
 
             for (var i = 0; i < numRows; i++)
             {
-                for (var j = 0; i < list[i].Length; i++)
+                for (var j = 0; j < list[i].Length; j++)
                 {
                     retVal[i, j] = list[i][j];
                 }
