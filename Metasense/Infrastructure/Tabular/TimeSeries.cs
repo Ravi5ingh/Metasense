@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Metasense.Tabular;
 
 namespace Metasense.Infrastructure.Tabular
 {
@@ -96,6 +97,30 @@ namespace Metasense.Infrastructure.Tabular
                 {
                     throw new ArgumentException(
                         $"The value '{cells[valueColumnIndex]}' at row : {i} col : {valueColumnIndex} cannot be parsed as a {typeof(double)}");
+                }
+                retVal.Add(dateTime, value);
+            }
+
+            return retVal;
+        }
+
+        public static TimeSeries LoadFromTable(Table table, char delimiter, int dateColumnIndex, int valueColumnIndex)
+        {
+            var retVal = new TimeSeries();
+
+            for (var i = 0; i < table.Data.GetLength(0); i++)
+            {
+                var dateCell = table.Data[i, dateColumnIndex] as string;
+                var valueCell = table.Data[i, valueColumnIndex] as string;
+                if (!DateTime.TryParse(dateCell, out DateTime dateTime))
+                {
+                    throw new ArgumentException(
+                        $"The value '{dateCell}' at row : {i} col : {dateColumnIndex} cannot be parsed as a {typeof(DateTime)}");
+                }
+                if (!double.TryParse(valueCell, out double value))
+                {
+                    throw new ArgumentException(
+                        $"The value '{valueCell}' at row : {i} col : {valueColumnIndex} cannot be parsed as a {typeof(double)}");
                 }
                 retVal.Add(dateTime, value);
             }

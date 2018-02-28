@@ -42,13 +42,13 @@ namespace Metasense.MetasenseFunctions
 
         [ExcelFunction(
             Name = "MTS_LoadTimeSeries",
-            Description = "Loads a Time Series",
+            Description = "Loads a Time Series from a table",
             Category = "Functions")]
         public static object LoadTimeSeries(
             [ExcelArgument(Name = "Name", Description = "The name to be given to the loaded time series")]
             object nameXl,
-            [ExcelArgument(Name = "File", Description = "The path of the file")]
-            object fileXl,
+            [ExcelArgument(Name = "Table", Description = "The raw data table")]
+            object tableXl,
             [ExcelArgument(Name = "Delimiter", Description = "The delimiting character (Default : ',')")]
             object delimiterXl,
             [ExcelArgument(Name = "Date Column Index", Description = "The index of the date column")]
@@ -59,7 +59,7 @@ namespace Metasense.MetasenseFunctions
             var function = new LoadTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
             {
                 Name = Arg(nameXl, "Name"),
-                FileName = Arg(fileXl, "File Path"),
+                DataTable = Arg(tableXl, "Data Table"),
                 Delimiter = Arg(delimiterXl, "Delimiter"),
                 DateColumnIndex = Arg(dateColumnIndexXl, "Date Column Index"),
                 ValueColumnIndex = Arg(valueColumnIndexXl, "Value Column Index")

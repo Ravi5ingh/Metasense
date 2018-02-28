@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Infrastructure.Tabular;
+using Metasense.Tabular;
 
 namespace Metasense.MetasenseFunctions.Tabular
 {
@@ -20,7 +22,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public ExcelArg Name { get; set; }
 
-        public ExcelArg FileName { get; set; }
+        public ExcelArg DataTable { get; set; }
 
         public ExcelArg Delimiter { get; set; }
 
@@ -34,7 +36,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         private string name;
 
-        private FileInfo fileInfo;
+        private Table dataTable;
 
         private char delimiter;
 
@@ -52,7 +54,7 @@ namespace Metasense.MetasenseFunctions.Tabular
         {
             name = Name.AsString();
 
-            fileInfo = new FileInfo(FileName.AsString());
+            dataTable = DataTable.GetFromStoreAs<Table>();
 
             delimiter = Delimiter.AsChar(',');
 
@@ -63,7 +65,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override TimeSeries Calculate()
         {
-            return TimeSeries.LoadFromFile(fileInfo, delimiter, dateColumnIndex, valueColumnIndex);
+            return TimeSeries.LoadFromTable(dataTable, delimiter, dateColumnIndex, valueColumnIndex);
         }
 
         public override object Render(TimeSeries resultObject)
