@@ -92,9 +92,11 @@ namespace Metasense.MetasenseFunctions
 
         [ExcelFunction(
             Name = "MTS_ExecuteSQL",
-            Description = "Executes an SQL query given an SQL connection",
+            Description = "Executes an SQL query given an SQL connection and loads the results into a table",
             Category = "Functions")]
-        public static object CreateSQLConnection(
+        public static object ExecuteSQLConnection(
+            [ExcelArgument(Name = "Table Name", Description = "The name of the table to load")]
+            object nameXl,
             [ExcelArgument(Name = "SQL Connection Object", Description = "An SQL connection object")]
             object sqlConnectionXl,
             [ExcelArgument(Name = "SQL Query", Description = "The string query to execute")]
@@ -102,6 +104,7 @@ namespace Metasense.MetasenseFunctions
         {
             var function = new ExecuteSQL(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
             {
+                Name = Arg(nameXl, "Table Name"),
                 SQLConnection = Arg(sqlConnectionXl, "SQL Connection Object"),
                 SQLQuery = Arg(sqlQueryXl, "SQL Query")
             };

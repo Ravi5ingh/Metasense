@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Infrastructure.Tabular;
+using Metasense.Tabular;
 
 namespace Metasense.MetasenseFunctions.Tabular
 {
-    public class ExecuteSQL : BaseFunction<string[,]>
+    public class ExecuteSQL : BaseFunction<Table>
     {
+        public ExcelArg Name { get; set; }
+
         public ExcelArg SQLConnection { get; set; }
 
         public ExcelArg SQLQuery { get; set; }
+
+        private string name;
 
         private SQLConnection sqlConnection;
 
@@ -25,14 +30,21 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override void ResolveInputs()
         {
+            name = Name.AsString();
+
             sqlConnection = SQLConnection.GetFromStoreAs<SQLConnection>();
 
             query = SQLQuery.AsString();
         }
 
-        public override string[,] Calculate()
+        public override Table Calculate()
         {
-            return sqlConnection.ExecuteQuery(query).As2DArray();
+            return Table.LoadFromSQL(query, sqlConnection);
+        }
+
+        public override object Render(Table resultObject)
+        {
+            return ObjectStore.Add(name, resultObject);
         }
     }
 }

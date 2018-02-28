@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Metasense.Infrastructure.Tabular;
 
 namespace Metasense.Tabular
 {
@@ -29,6 +28,13 @@ namespace Metasense.Tabular
             }
 
             return new Table(data.ToArray().As2DArray());
+        }
+
+        public static Table LoadFromSQL(string sqlQuery, SQLConnection sqlConnection)
+        {
+            var data = sqlConnection.ExecuteQuery(sqlQuery);
+            
+            return new Table(data.As2DArray());
         }
 
         /// <summary>
