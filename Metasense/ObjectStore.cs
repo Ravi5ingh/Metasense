@@ -54,6 +54,16 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Checks if the given string is a valid key for an object in the store
+        /// </summary>
+        /// <param name="name">The key name</param>
+        /// <returns>A boolean</returns>
+        public static bool Contains(string name)
+        {
+            return store.ContainsKey(name);
+        }
+
+        /// <summary>
         /// Get an object from the object store
         /// </summary>
         /// <param name="name">The key name</param>

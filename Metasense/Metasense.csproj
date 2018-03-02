@@ -60,6 +60,7 @@
     <Compile Include="Infrastructure\Tabular\SQLConnection.cs" />
     <Compile Include="Infrastructure\Tabular\TimeSeries.cs" />
     <Compile Include="Infrastructure\Tabular\TSPoint.cs" />
+    <Compile Include="MetasenseFunctions\DateTime\GetTimeOfDay.cs" />
     <Compile Include="MetasenseFunctions\Functions.cs" />
     <Compile Include="Math\MathFunctions.cs" />
     <Compile Include="Infrastructure\Functions\IFunction.cs" />
@@ -68,6 +69,9 @@
     <Compile Include="MetasenseFunctions\Tabular\BucketTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\CreateSQLConnection.cs" />
     <Compile Include="MetasenseFunctions\Tabular\ExecuteSQL.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\GetSubGrid.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\GetTSDates.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\GetTSValues.cs" />
     <Compile Include="MetasenseFunctions\Tabular\Unique.cs" />
     <Compile Include="MetasenseFunctions\Tabular\CropTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTable.cs" />

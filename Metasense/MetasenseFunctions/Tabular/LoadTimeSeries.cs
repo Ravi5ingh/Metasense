@@ -24,8 +24,6 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public ExcelArg DataTable { get; set; }
 
-        public ExcelArg Delimiter { get; set; }
-
         public ExcelArg DateColumnIndex { get; set; }
 
         public ExcelArg ValueColumnIndex { get; set; }
@@ -37,8 +35,6 @@ namespace Metasense.MetasenseFunctions.Tabular
         private string name;
 
         private Table dataTable;
-
-        private char delimiter;
 
         private int dateColumnIndex;
 
@@ -56,8 +52,6 @@ namespace Metasense.MetasenseFunctions.Tabular
 
             dataTable = DataTable.GetFromStoreAs<Table>();
 
-            delimiter = Delimiter.AsChar(',');
-
             dateColumnIndex = DateColumnIndex.AsInt();
 
             valueColumnIndex = ValueColumnIndex.AsInt();
@@ -65,7 +59,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override TimeSeries Calculate()
         {
-            return TimeSeries.LoadFromTable(dataTable, delimiter, dateColumnIndex, valueColumnIndex);
+            return TimeSeries.LoadFromTable(dataTable, dateColumnIndex, valueColumnIndex);
         }
 
         public override object Render(TimeSeries resultObject)

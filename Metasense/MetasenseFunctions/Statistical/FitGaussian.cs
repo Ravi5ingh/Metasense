@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Math;
+using Metasense.Tabular;
 
 namespace Metasense.MetasenseFunctions.Statistical
 {
@@ -13,6 +16,8 @@ namespace Metasense.MetasenseFunctions.Statistical
 
         public ExcelArg YValues { get; set; }
 
+        public ExcelArg ShowLabels { get; set; }
+
         #endregion
 
         #region Resolved Parameters
@@ -20,6 +25,8 @@ namespace Metasense.MetasenseFunctions.Statistical
         private double[] xValues;
 
         private double[] yValues;
+
+        private bool showLabels;
 
         #endregion
 
@@ -29,31 +36,40 @@ namespace Metasense.MetasenseFunctions.Statistical
 
         public override void ResolveInputs()
         {
-            xValues = XValues.As1DArray<double>();
+            xValues = XValues.IsInObjectStoreAs<Table>()
+                ? XValues.GetFromStoreAs<Table>().Data.Cast<double>().ToArray()
+                : XValues.As1DArray<double>();
 
-            yValues = YValues.As1DArray<double>();
+            yValues = YValues.IsInObjectStoreAs<Table>()
+                ? YValues.GetFromStoreAs<Table>().Data.Cast<double>().ToArray()
+                : YValues.As1DArray<double>();
 
             if (xValues.Length != yValues.Length)
             {
                 throw new ArgumentException(
                     $"The number of x values ({xValues.Length}) needs to be equal to the number of y values ({yValues.Length})");
             }
+
+            showLabels = ShowLabels.AsBoolean(false);
         }
 
         public override object[,] Calculate()
         {
             var fittedGaussian = MathFunctions.FitGaussianToPlot(xValues, yValues);
 
-            var retVal = new object[2, 3];
-            // mean
-            retVal[0, 0] = "σ";
-            retVal[1, 0] = fittedGaussian.Item3;
-            // std dev
-            retVal[0, 1] = "µ";
-            retVal[1, 1] = fittedGaussian.Item2;
-            // a
-            retVal[0, 2] = "a";
-            retVal[1, 2] = fittedGaussian.Item1;
+            var retVal = new object[showLabels ? 2 : 1, 3];
+            var numberRow = 0;
+            if (showLabels)
+            {
+                retVal[0, 0] = "σ";
+                retVal[0, 1] = "µ";
+                retVal[0, 2] = "a";
+                numberRow++;
+            }
+
+            retVal[numberRow, 0] = fittedGaussian.Item3;
+            retVal[numberRow, 1] = fittedGaussian.Item2;
+            retVal[numberRow, 2] = fittedGaussian.Item1;
 
             return retVal;
         }

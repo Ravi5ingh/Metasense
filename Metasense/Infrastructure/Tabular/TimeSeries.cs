@@ -42,6 +42,16 @@ namespace Metasense.Infrastructure.Tabular
             }
         }
 
+        public List<DateTime> GetDates()
+        {
+            return _ts.Select(point => point.Time).ToList();
+        }
+
+        public List<double> GetValues()
+        {
+            return _ts.Select(point => point.Value).ToList();
+        }
+
         public TimeSeries Crop(DateTime start, DateTime end)
         {
             if (end <= start)
@@ -104,7 +114,7 @@ namespace Metasense.Infrastructure.Tabular
             return retVal;
         }
 
-        public static TimeSeries LoadFromTable(Table table, char delimiter, int dateColumnIndex, int valueColumnIndex)
+        public static TimeSeries LoadFromTable(Table table, int dateColumnIndex, int valueColumnIndex)
         {
             var retVal = new TimeSeries();
 

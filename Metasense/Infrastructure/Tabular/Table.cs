@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Encog.ML.EA.Train;
 using Metasense.Infrastructure.Tabular;
 
 namespace Metasense.Tabular
@@ -35,6 +36,28 @@ namespace Metasense.Tabular
             var data = sqlConnection.ExecuteQuery(sqlQuery);
             
             return new Table(data.As2DArray());
+        }
+
+        public static Table CreateRowFrom<T>(IEnumerable<T> rawData)
+        {
+            var rawArr = rawData.ToArray();
+            var row = new object[1, rawArr.Length];
+            for (var i = 0; i < rawArr.Length; i++)
+            {
+                row[0, i] = rawArr[i];
+            }
+            return new Table(row);
+        }
+
+        public static Table CreateColumnFrom<T>(IEnumerable<T> rawData)
+        {
+            var rawArr = rawData.ToArray();
+            var column = new object[rawArr.Length, 1];
+            for (var i = 0; i < rawArr.Length; i++)
+            {
+                column[i, 0] = rawArr[i];
+            }
+            return new Table(column);
         }
 
         /// <summary>

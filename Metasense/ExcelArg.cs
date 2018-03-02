@@ -44,6 +44,16 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Checks whether this <see cref="ExcelArg"/> object is actually a handle for an object of type <see cref="T"/> in the object store
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public bool IsInObjectStoreAs<T>()
+        {
+            return CanBeString() && ObjectStore.Contains(AsString()) && ObjectStore.Get(AsString()) is T;
+        }
+
+        /// <summary>
         /// Get from the object store, the object keyed on the value in the argument as the specified type
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -62,6 +72,15 @@ namespace Metasense
         {
             var str = AsString();
             return IsEmpty || str == null ? defaultValue : str[0];
+        }
+
+        /// <summary>
+        /// Can this argument be a string
+        /// </summary>
+        /// <returns></returns>
+        public bool CanBeString()
+        {
+            return AsString() != null;
         }
 
         /// <summary>

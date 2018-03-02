@@ -1,5 +1,4 @@
-﻿using System;
-using Metasense.Infrastructure;
+﻿using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Infrastructure.Tabular;
 
@@ -27,9 +26,9 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         private TimeSeries inputTimeSeries;
 
-        private DateTime start;
+        private System.DateTime start;
 
-        private DateTime end;
+        private System.DateTime end;
 
         private long intervalBucketSizeInSeconds;
 

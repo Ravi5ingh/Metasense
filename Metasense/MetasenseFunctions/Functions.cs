@@ -5,6 +5,7 @@ using System;
 using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Math;
+using Metasense.MetasenseFunctions.DateTime;
 using Metasense.MetasenseFunctions.Neural;
 using Metasense.MetasenseFunctions.Statistical;
 using Metasense.MetasenseFunctions.Tabular;
@@ -49,8 +50,6 @@ namespace Metasense.MetasenseFunctions
             object nameXl,
             [ExcelArgument(Name = "Table", Description = "The raw data table")]
             object tableXl,
-            [ExcelArgument(Name = "Delimiter", Description = "The delimiting character (Default : ',')")]
-            object delimiterXl,
             [ExcelArgument(Name = "Date Column Index", Description = "The index of the date column")]
             object dateColumnIndexXl,
             [ExcelArgument(Name = "Value Column Index", Description = "The index of the value column")]
@@ -60,7 +59,6 @@ namespace Metasense.MetasenseFunctions
             {
                 Name = Arg(nameXl, "Name"),
                 DataTable = Arg(tableXl, "Data Table"),
-                Delimiter = Arg(delimiterXl, "Delimiter"),
                 DateColumnIndex = Arg(dateColumnIndexXl, "Date Column Index"),
                 ValueColumnIndex = Arg(valueColumnIndexXl, "Value Column Index")
             };
@@ -145,7 +143,7 @@ namespace Metasense.MetasenseFunctions
             [ExcelArgument(Name = "End Time", Description = "The end point to take")]
             object endTimeXl)
         {
-            var function = new CropTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
+            var function = new CropTimeSeries(Enums.FunctionType.Heavy)
             {
                 Name = Arg(nameXl, "Name"),
                 InputTimeSeries = Arg(inputTimeSeriesXl, "Input Time Series"),
@@ -172,7 +170,7 @@ namespace Metasense.MetasenseFunctions
             [ExcelArgument(Name = "Bucket Size", Description = "The size of the intervals out of which the buckets are made. This is in seconds")]
             object bucketSizeXl)
         {
-            var function = new BucketTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
+            var function = new BucketTimeSeries(Enums.FunctionType.Heavy)
             {
                 Name = Arg(nameXl, "Name"),
                 InputTimeSeries = Arg(inputTimeSeriesXl, "Input Time Series"),
@@ -213,12 +211,73 @@ namespace Metasense.MetasenseFunctions
             [ExcelArgument(Name = "x Values", Description = "The x co-ordinates of the scatter plot")]
             object xValuesXl,
             [ExcelArgument(Name = "y Values", Description = "The y co-ordinates of the scatter plot")]
-            object yValuesXl)
+            object yValuesXl,
+            [ExcelArgument(Name = "Show Param Labels", Description = "Whether or not to include the parameter labels in the output (Default : False)")]
+            object showLabelsXl)
         {
             var function = new FitGaussian(Enums.FunctionType.Light)
             {
                 XValues = Arg(xValuesXl, "x Value"),
-                YValues = Arg(yValuesXl, "y Values")
+                YValues = Arg(yValuesXl, "y Values"),
+                ShowLabels = Arg(showLabelsXl, "Show Labels")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
+            Name = "MTS_GetTimeOfDay",
+            Description = "Gets the time of day for the given date(s). If the input is a table of dates, the output is also a table of dates and the output tabel name parameter is mandatory",
+            Category = "Functions")]
+        public static object GetTimeOfDay(
+            [ExcelArgument(Name = "Dates", Description = "A single date or a table of dates as input")]
+            object datesXl,
+            [ExcelArgument(Name = "Output Table Nam", Description = "The name of the output tabe in case the input is a table")]
+            object outputTableNameXl)
+        {
+            var function = new GetTimeOfDay(Enums.FunctionType.Light)
+            {
+                Dates = Arg(datesXl, "Input Date(s)"),
+                OutputTableName = Arg(outputTableNameXl, "Output Table Name (Mandatory if table is provided)")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+
+        [ExcelFunction(
+            Name = "MTS_GetTSDates",
+            Description = "Gets the dates from a time series object and returns a table of doubles representing the DateTime objects",
+            Category = "Functions")]
+        public static object GetTSDates(
+            [ExcelArgument(Name = "Name", Description = "The name to give the output table")]
+            object nameXl,
+            [ExcelArgument(Name = "Time Series", Description = "A time series object")]
+            object timeSeriesXl)
+        {
+            var function = new GetTSDates(Enums.FunctionType.Light)
+            {
+                Name = Arg(nameXl, "Name"),
+                TimeSeries = Arg(timeSeriesXl, "Time Series")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
+            Name = "MTS_GetTSValues",
+            Description = "Gets the values from a time series object and returns a table",
+            Category = "Functions")]
+        public static object GetTSValues(
+            [ExcelArgument(Name = "Name", Description = "The name to give the output table")]
+            object nameXl,
+            [ExcelArgument(Name = "Time Series", Description = "A time series object")]
+            object timeSeriesXl)
+        {
+            var function = new GetTSValues(Enums.FunctionType.Light)
+            {
+                Name = Arg(nameXl, "Name"),
+                TimeSeries = Arg(timeSeriesXl, "Time Series")
             };
 
             return FunctionRunner.Run(function);

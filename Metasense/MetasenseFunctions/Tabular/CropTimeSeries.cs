@@ -19,9 +19,9 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         private TimeSeries inputTimeSeries;
 
-        private DateTime startDate;
+        private System.DateTime startDate;
 
-        private DateTime endDate;
+        private System.DateTime endDate;
 
         public CropTimeSeries(Enums.FunctionType functionType) : base(functionType)
         {

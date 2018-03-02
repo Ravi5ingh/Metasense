@@ -83,6 +83,16 @@ namespace Metasense
             return retVal;
         }
 
+        public static T[,] As2DRow<T>(this IEnumerable<T> enumerable)
+        {
+            return null;
+        }
+
+        public static Y[,] As2DColumn<Y,T>(this IEnumerable<T> enumerable)
+        {
+            return null;
+        }
+
         /// <summary>
         /// Aggregate the contents into a human readable string
         /// </summary>
