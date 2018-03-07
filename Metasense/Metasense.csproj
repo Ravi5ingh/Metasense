@@ -64,8 +64,9 @@
     <Compile Include="MetasenseFunctions\Functions.cs" />
     <Compile Include="Math\MathFunctions.cs" />
     <Compile Include="Infrastructure\Functions\IFunction.cs" />
-    <Compile Include="MetasenseFunctions\Neural\TrainNetwork.cs" />
+    <Compile Include="MetasenseFunctions\ML\TrainNetwork.cs" />
     <Compile Include="MetasenseFunctions\Statistical\FitGaussian.cs" />
+    <Compile Include="MetasenseFunctions\Statistical\Normalize.cs" />
     <Compile Include="MetasenseFunctions\Tabular\BucketTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\CreateSQLConnection.cs" />
     <Compile Include="MetasenseFunctions\Tabular\ExecuteSQL.cs" />

@@ -31,7 +31,7 @@ namespace Metasense.MetasenseFunctions.Tabular
         {
             var dates = timeSeries.GetDates().Select(date => date.ToOADate());
 
-            return Table.CreateRowFrom(dates);
+            return Table.CreateColumnFrom(dates);
         }
 
         public override object Render(Table resultObject)

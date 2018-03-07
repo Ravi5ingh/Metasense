@@ -36,6 +36,35 @@ namespace Metasense
         }
 
         /// <summary>
+        /// Gets the biggest value in a non-empty array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        /// TODO : Make this generic for IComparables
+        public static double Max(this double[,] arr)
+        {
+            if (arr.GetLength(0) == 0 || arr.GetLength(1) == 0)
+            {
+                throw new ArgumentException("Array must have positive dimensions");
+            }
+
+            var max = arr[0, 0];
+            for (var i = 0; i < arr.GetLength(0); i++)
+            {
+                for (var j = 0; j < arr.GetLength(1); j++)
+                {
+                    if (arr[i, j] > max)
+                    {
+                        max = arr[i, j];
+                    }
+                }
+            }
+
+            return max;
+        }
+
+        /// <summary>
         /// Convert a jagged array to a 2D array
         /// </summary>
         /// <typeparam name="T">The type</typeparam>

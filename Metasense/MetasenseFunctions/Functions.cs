@@ -6,9 +6,10 @@ using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Math;
 using Metasense.MetasenseFunctions.DateTime;
-using Metasense.MetasenseFunctions.Neural;
+using Metasense.MetasenseFunctions.ML;
 using Metasense.MetasenseFunctions.Statistical;
 using Metasense.MetasenseFunctions.Tabular;
+using Metasense.Tabular;
 using Microsoft.Office.Interop.Excel;
 
 
@@ -39,6 +40,17 @@ namespace Metasense.MetasenseFunctions
             };
 
             return FunctionRunner.Run(function);
+        }
+
+        /// TODO : ths is shit. something needs to be done about this in the infrastructure
+        [ExcelFunction(
+            Name = "MTS_ShowTable",
+            Description = "Shows a table",
+            Category = "Functions")]
+        public static object ShowTable(
+            string tableXl)
+        {
+            return Arg(tableXl, "Table").GetFromStoreAs<Table>().Data;
         }
 
         [ExcelFunction(
@@ -156,12 +168,12 @@ namespace Metasense.MetasenseFunctions
 
         [ExcelFunction(
             Name = "MTS_BucketTimeSeries",
-            Description = "Loads a Time Series",
+            Description = "Given an original time series, crops it to the given period, buckets the values into the given sizes and stores another object for it",
             Category = "Functions")]
         public static object BucketTimeSeries(
             [ExcelArgument(Name = "Name", Description = "The name to be given to the new time series")]
             object nameXl,
-            [ExcelArgument(Name = "Input Time Series", Description = "The path of the file")]
+            [ExcelArgument(Name = "Input Time Series", Description = "The original time series object")]
             object inputTimeSeriesXl,
             [ExcelArgument(Name = "Start Time", Description = "The starting point to take")]
             object startTimeXl,
@@ -316,6 +328,22 @@ namespace Metasense.MetasenseFunctions
         public static double TimeTwo(double value)
         {
             return value * 2;
+        }
+
+        [ExcelFunction(
+            Name = "MTS_Normalize",
+            Description = "Normalizes the input data",
+            Category = "Functions")]
+        public static object Normalize(
+            [ExcelArgument(Name = "Inputs", Description = "The inputs to be normalized")]
+            object inputsXl)
+        {
+            var function = new Normalize(Enums.FunctionType.Light)
+            {
+                Inputs = Arg(inputsXl, "Inputs")
+            };
+
+            return FunctionRunner.Run(function);
         }
 
         [ExcelFunction(

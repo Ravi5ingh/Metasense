@@ -30,7 +30,7 @@ namespace Metasense.MetasenseFunctions.Tabular
         {
             var values = timeSeries.GetValues();
 
-            return Table.CreateRowFrom(values);
+            return Table.CreateColumnFrom(values);
         }
 
         public override object Render(Table resultObject)
