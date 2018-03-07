@@ -1,5 +1,7 @@
-﻿using Metasense.Infrastructure;
+﻿using System.Linq;
+using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
+using Metasense.Tabular;
 
 namespace Metasense.MetasenseFunctions.Statistical
 {
@@ -15,7 +17,14 @@ namespace Metasense.MetasenseFunctions.Statistical
 
         public override void ResolveInputs()
         {
-            inputs = Inputs.As2DArray<double>();
+            if (Inputs.IsInObjectStoreAs<Table>())
+            {
+                inputs = Inputs.GetFromStoreAs<Table>().Data.Cast2D<double>();
+            }
+            else
+            {
+                inputs = Inputs.As2DArray<double>();
+            }
         }
 
         public override double[,] Calculate()

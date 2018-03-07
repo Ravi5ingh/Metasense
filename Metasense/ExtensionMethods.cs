@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Encog.App.Quant.Loader.Yahoo;
+using Microsoft.Office.Core;
 
 namespace Metasense
 {
@@ -106,6 +108,31 @@ namespace Metasense
                 for (var j = 0; j < list[i].Length; j++)
                 {
                     retVal[i, j] = list[i][j];
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Casts an object array to another 2d array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="originalArray"></param>
+        /// <returns></returns>
+        public static T[,] Cast2D<T>(this object[,] originalArray)
+        {
+            if (originalArray.GetLength(0) == 0 || originalArray.GetLength(1) == 0)
+            {
+                throw new ArgumentException("Cannot perform cast on array with 0 dimension lengths");
+            }
+
+            var retVal = new T[originalArray.GetLength(0), originalArray.GetLength(1)];
+            for (var i = 0; i < retVal.GetLength(0); i++)
+            {
+                for (var j = 0; j < retVal.GetLength(1); j++)
+                {
+                    retVal[i, j] = (T)originalArray[i, j];
                 }
             }
 
