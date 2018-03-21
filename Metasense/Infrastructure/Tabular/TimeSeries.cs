@@ -10,11 +10,14 @@ namespace Metasense.Infrastructure.Tabular
     {
         public int Count => _ts.Count;
 
-        private SortedList<TSPoint> _ts;
+        //private SortedList<TSPoint> _ts;
+
+        private SortedList<DateTime, double> _ts;
 
         private TimeSeries()
         {
-            _ts = new SortedList<TSPoint>();
+            //_ts = new SortedList<TSPoint>();
+            _ts = new SortedList<DateTime, double>();
         }
 
         /// <summary>
@@ -24,27 +27,40 @@ namespace Metasense.Infrastructure.Tabular
         /// <returns></returns>
         public TSPoint this[int index]
         {
-            get => _ts[index];
-            set => _ts[index] = value;
+            get
+            {
+                var kvp = _ts.ElementAt(index);
+                return new TSPoint {Time = kvp.Key, Value = kvp.Value};
+            }
         }
 
         public void Add(DateTime dateTime, double value)
         {
-            var fakePoint = new TSPoint {Time = dateTime};
-            if (_ts.ContainsComparableValue(fakePoint, out var index))
+            //var fakePoint = new TSPoint {Time = dateTime};
+            //if (_ts.ContainsComparableValue(fakePoint, out var index))
+            //{
+            //    var oldPoint = _ts[index];
+            //    _ts[index]  = new TSPoint{Time = dateTime, Value = oldPoint.Value + value};
+            //}
+            //else
+            //{
+            //    _ts.Add(new TSPoint {Time = dateTime, Value = value});
+            //}
+            if (_ts.ContainsKey(dateTime))
             {
-                var oldPoint = _ts[index];
-                _ts[index]  = new TSPoint{Time = dateTime, Value = oldPoint.Value + value};
+                _ts[dateTime] += value;
             }
             else
             {
-                _ts.Add(new TSPoint {Time = dateTime, Value = value});
+                _ts.Add(dateTime, value);
             }
         }
 
         public List<DateTime> GetDates()
         {
-            return _ts.Select(point => point.Time).ToList();
+            //return _ts.Select(point => point.Time).ToList();
+
+            return _ts.Keys.ToList();
         }
 
         public List<double> GetValues()
@@ -54,33 +70,104 @@ namespace Metasense.Infrastructure.Tabular
 
         public TimeSeries Crop(DateTime start, DateTime end)
         {
+            //if (end <= start)
+            //{
+            //    throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
+            //}
+            //var retVal = new TimeSeries();
+            //var croppedSeries = _ts.Where(point => point.Time >= start && point.Time <= end);
+            //foreach (var point in croppedSeries)
+            //{
+            //    retVal.Add(point.Time, point.Value);
+            //}
+            //return retVal;
+
             if (end <= start)
             {
                 throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
             }
             var retVal = new TimeSeries();
-            var croppedSeries = _ts.Where(point => point.Time >= start && point.Time <= end);
-            foreach (var point in croppedSeries)
+            var croppedTS = _ts.Where(kvp => kvp.Key >= start && kvp.Key <= end);
+            foreach (var kvp in croppedTS)
             {
-                retVal.Add(point.Time, point.Value);
+                retVal.Add(kvp.Key, kvp.Value);
             }
             return retVal;
         }
 
         public TimeSeries Bucket(DateTime start, DateTime end, long intervalInSeconds)
         {
+            //if (end <= start)
+            //{
+            //    throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
+            //}
+
+            //var retVal = new TimeSeries();
+            //var croppedSeries = _ts.Where(point => point.Time >= start && point.Time <= end);
+            //foreach (var point in croppedSeries)
+            //{
+            //    var rem = (int)(point.Time - start).TotalSeconds % intervalInSeconds;
+            //    var tp = point.Time.AddSeconds(-rem);
+            //    retVal.Add(tp, point.Value);
+            //}
+
+            //return retVal;
+
             if (end <= start)
             {
                 throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
             }
 
             var retVal = new TimeSeries();
-            var croppedSeries = _ts.Where(point => point.Time >= start && point.Time <= end);
-            foreach (var point in croppedSeries)
+            var croppedTS = _ts.Where(kvp => kvp.Key >= start && kvp.Key <= end);
+            foreach (var kvp in croppedTS)
             {
-                var rem = (int)(point.Time - start).TotalSeconds % intervalInSeconds;
-                var tp = point.Time.AddSeconds(-rem);
-                retVal.Add(tp, point.Value);
+                var rem = (int)(kvp.Key - start).TotalSeconds % intervalInSeconds;
+                var tp = kvp.Key.AddSeconds(-rem);
+                retVal.Add(tp, kvp.Value);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Merge constituent time series into 1 object
+        /// </summary>
+        /// <param name="constituents"></param>
+        /// <param name="fullMerge"></param>
+        /// <returns></returns>
+        public static TimeSeries CreateMerged(IEnumerable<TimeSeries> constituents)
+        {
+            var retVal = new TimeSeries();
+            foreach (var constituent in constituents)
+            {
+                foreach (var kvp in constituent._ts)
+                {
+                    retVal.Add(kvp.Key, kvp.Value);
+                }
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// Merge the dates of the constituent time series and return a mapping of DateTime to a row of values corresponding to the constituent time series
+        /// </summary>
+        /// <param name="constituents"></param>
+        /// <returns></returns>
+        public static Dictionary<DateTime, double[]> MergeDates(TimeSeries[] constituents)
+        {
+            var retVal = new Dictionary<DateTime, double[]>();
+
+            for (var constituentIndex = 0; constituentIndex < constituents.Length; constituentIndex++)
+            {
+                foreach (var point in constituents[constituentIndex]._ts)
+                {
+                    if (!retVal.ContainsKey(point.Key))
+                    {
+                        retVal.Add(point.Key, new double[constituents.Length]);
+                    }
+                    retVal[point.Key][constituentIndex] += point.Value;
+                }
             }
 
             return retVal;

@@ -38,6 +38,11 @@ namespace Metasense.Tabular
             return new Table(data.As2DArray());
         }
 
+        public static Table CreateFromRawData(object[,] rawData)
+        {
+            return new Table(rawData);
+        }
+
         public static Table CreateRowFrom<T>(IEnumerable<T> rawData)
         {
             var rawArr = rawData.ToArray();

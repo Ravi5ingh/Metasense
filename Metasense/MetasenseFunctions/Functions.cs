@@ -42,7 +42,7 @@ namespace Metasense.MetasenseFunctions
             return FunctionRunner.Run(function);
         }
 
-        /// TODO : ths is shit. something needs to be done about this in the infrastructure
+        /// TODO : ths is shit. make it a function
         [ExcelFunction(
             Name = "MTS_ShowTable",
             Description = "Shows a table",
@@ -195,6 +195,25 @@ namespace Metasense.MetasenseFunctions
         }
 
         [ExcelFunction(
+            Name = "MTS_MergeTimeSeries",
+            Description = "Merges the dates or both the dates and values of the given time series objects",
+            Category = "Functions")]
+        public static object MergeTimeSeries(
+            [ExcelArgument(Name = "Input Time Series", Description = "A set of time series objects")]
+            object inputTimeSeriesXl,
+            [ExcelArgument(Name = "Perform Full Merge", Description = "Merges dates and value if true, only dates otherwise")]
+            object performFullMergeXl)
+        {
+            var function = new MergeTimeSeries(Enums.FunctionType.Light)
+            {
+                InputTimeSeries = Arg(inputTimeSeriesXl, "Input Time Series"),
+                FullMerge = Arg(performFullMergeXl, "Peform Full Merge")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
             Name = "MTS_Gaussian",
             Description = "Performs the gaussian function on the inputs",
             Category = "Functions")]
@@ -306,6 +325,25 @@ namespace Metasense.MetasenseFunctions
             var function = new Unique(Enums.FunctionType.Light)
             {
                 InputRange = Arg(inputRangeXl, "Input Range")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
+            Name = "MTS_Diff",
+            Description = "Gets all values in input 1 that are not in input 2",
+            Category = "Functions")]
+        public static object Diff(
+            [ExcelArgument(Name = "Input 1", Description = "The main set")]
+            object input1Xl,
+            [ExcelArgument(Name = "Input 2", Description = "The smaller subset of Input 1")]
+            object input2Xl)
+        {
+            var function = new Diff(Enums.FunctionType.Light)
+            {
+                Input1 = Arg(input1Xl, "Input 1"),
+                Input2 = Arg(input2Xl, "Input 2")
             };
 
             return FunctionRunner.Run(function);

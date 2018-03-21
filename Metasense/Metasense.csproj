@@ -69,10 +69,13 @@
     <Compile Include="MetasenseFunctions\Statistical\Normalize.cs" />
     <Compile Include="MetasenseFunctions\Tabular\BucketTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\CreateSQLConnection.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\CreateTable.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\Diff.cs" />
     <Compile Include="MetasenseFunctions\Tabular\ExecuteSQL.cs" />
     <Compile Include="MetasenseFunctions\Tabular\GetSubGrid.cs" />
     <Compile Include="MetasenseFunctions\Tabular\GetTSDates.cs" />
     <Compile Include="MetasenseFunctions\Tabular\GetTSValues.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\MergeTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\Unique.cs" />
     <Compile Include="MetasenseFunctions\Tabular\CropTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\LoadTable.cs" />

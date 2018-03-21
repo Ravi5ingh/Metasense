@@ -11,6 +11,7 @@ namespace Metasense.Infrastructure
     /// This should have been part of the .NET framework!!
     /// </remarks>
     /// <typeparam name="T"></typeparam>
+    /// TODO : This is fucking broken! fix it
     public class SortedList<T> : IList<T> where T : IComparable<T>
     {
 
