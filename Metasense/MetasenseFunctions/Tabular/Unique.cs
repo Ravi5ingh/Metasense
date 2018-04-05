@@ -5,12 +5,12 @@ using Metasense.Infrastructure.Functions;
 
 namespace Metasense.MetasenseFunctions.Tabular
 {
-    public class Unique : BaseFunction<string[]>
+    public class Unique : BaseFunction<object[]>
     {
 
         public ExcelArg InputRange { get; set; }
 
-        private string[,] inputRange;
+        private object[,] inputRange;
 
         public Unique(Enums.FunctionType functionType) : base(functionType)
         {
@@ -18,12 +18,12 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override void ResolveInputs()
         {
-            inputRange = InputRange.As2DArray<string>();
+            inputRange = InputRange.As2DArray<object>();
         }
 
-        public override string[] Calculate()
+        public override object[] Calculate()
         {
-            var uniqueValues = new HashSet<string>();
+            var uniqueValues = new HashSet<object>();
 
             foreach (var value in inputRange)
             {
@@ -38,7 +38,7 @@ namespace Metasense.MetasenseFunctions.Tabular
         /// </summary>
         /// <param name="resultObject"></param>
         /// <returns></returns>
-        public override object Render(string[] resultObject)
+        public override object Render(object[] resultObject)
         {
             var retVal = new object[resultObject.Length, 1];
             for (var i = 0; i < resultObject.Length; i++)
