@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Tabular;
@@ -28,7 +29,10 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override object[,] Calculate()
         {
-            return Table.CreateColumnFrom(input1.Where(el => !input2.Contains(el)).Distinct()).Data;
+            var data = input1.Where(el => !input2.Contains(el)).Distinct().Any()
+                ? input1.Where(el => !input2.Contains(el)).Distinct()
+                : new List<object> {"No missing data"};
+            return Table.CreateColumnFrom(data).Data;
         }
     }
 }
