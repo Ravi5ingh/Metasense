@@ -350,6 +350,25 @@ namespace Metasense.MetasenseFunctions
         }
 
         [ExcelFunction(
+            Name = "MTS_Intersect",
+            Description = "Gets all the common distinct elements in input one and two",
+            Category = "Functions")]
+        public static object Intersect(
+            [ExcelArgument(Name = "Input 1", Description = "Input 1")]
+            object input1Xl,
+            [ExcelArgument(Name = "Input 2", Description = "Input 2")]
+            object input2Xl)
+        {
+            var function = new Intersect(Enums.FunctionType.Light)
+            {
+                Input1 = Arg(input1Xl, "Input 1"),
+                Input2 = Arg(input2Xl, "Input 2")
+            };
+
+            return FunctionRunner.Run(function);
+        }
+
+        [ExcelFunction(
             Name = "MTS_CurrentPath",
             Description = "Get the path of the current workbook",
             Category = "Functions")]

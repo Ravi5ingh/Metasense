@@ -75,6 +75,7 @@
     <Compile Include="MetasenseFunctions\Tabular\GetSubGrid.cs" />
     <Compile Include="MetasenseFunctions\Tabular\GetTSDates.cs" />
     <Compile Include="MetasenseFunctions\Tabular\GetTSValues.cs" />
+    <Compile Include="MetasenseFunctions\Tabular\Intersect.cs" />
     <Compile Include="MetasenseFunctions\Tabular\MergeTimeSeries.cs" />
     <Compile Include="MetasenseFunctions\Tabular\Unique.cs" />
     <Compile Include="MetasenseFunctions\Tabular\CropTimeSeries.cs" />

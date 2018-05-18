@@ -6,7 +6,7 @@ using Metasense.Tabular;
 
 namespace Metasense.MetasenseFunctions.Tabular
 {
-    public class Diff : BaseFunction<object[,]>
+    public class Intersect : BaseFunction<object[,]>
     {
         public ExcelArg Input1 { get; set; }
 
@@ -16,7 +16,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         private object[] input2;
 
-        public Diff(Enums.FunctionType functionType) : base(functionType)
+        public Intersect(Enums.FunctionType functionType) : base(functionType)
         {
         }
 
@@ -29,9 +29,11 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override object[,] Calculate()
         {
-            var data = input1.Where(el => !input2.Contains(el)).Distinct().Any()
-                ? input1.Where(el => !input2.Contains(el)).Distinct()
-                : new List<object> {"No missing elements in input 2"};
+            var data = input1.Where(el => input2.Contains(el)).Distinct();
+            if (!data.Any())
+            {
+                data = new List<object> {"No common elements"};
+            }
             return Table.CreateColumnFrom(data).Data;
         }
     }
