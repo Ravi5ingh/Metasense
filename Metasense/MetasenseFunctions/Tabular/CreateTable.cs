@@ -22,7 +22,7 @@ namespace Metasense.MetasenseFunctions.Tabular
         {
             tableName = TableName.AsString();
 
-            rawData = Data.As2DArray<object>();
+            rawData = Data.As2DArrayOf<object>();
         }
 
         public override Table Calculate()

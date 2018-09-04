@@ -18,7 +18,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public override void ResolveInputs()
         {
-            inputRange = InputRange.As2DArray<object>();
+            inputRange = InputRange.As2DArrayOf<object>();
         }
 
         public override object[] Calculate()

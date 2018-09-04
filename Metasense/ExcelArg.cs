@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Metasense
 {
@@ -132,7 +128,7 @@ namespace Metasense
         }
 
         /// <summary>
-        /// Resolve the argument as a 1D data structure
+        /// Resolve the argument as a 1D data structure (Only works if range dimensionality is 1)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -177,7 +173,7 @@ namespace Metasense
         /// </summary>
         /// <typeparam name="T">The type</typeparam>
         /// <returns>The converted array</returns>
-        public T[,] As2DArray<T>()
+        public T[,] As2DArrayOf<T>()
         {
             T[,] retVal;
             if (argument is object[,])

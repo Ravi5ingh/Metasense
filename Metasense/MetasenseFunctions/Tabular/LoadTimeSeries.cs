@@ -28,6 +28,8 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public ExcelArg ValueColumnIndex { get; set; }
 
+        public ExcelArg IsCumulative { get; set; }
+
         #endregion
 
         #region Resolved Parameters
@@ -39,6 +41,8 @@ namespace Metasense.MetasenseFunctions.Tabular
         private int dateColumnIndex;
 
         private int valueColumnIndex;
+
+        private bool isCumulative;
 
         #endregion
 
@@ -55,11 +59,13 @@ namespace Metasense.MetasenseFunctions.Tabular
             dateColumnIndex = DateColumnIndex.AsInt();
 
             valueColumnIndex = ValueColumnIndex.AsInt();
+
+            isCumulative = IsCumulative.AsBoolean(false);
         }
 
         public override TimeSeries Calculate()
         {
-            return TimeSeries.LoadFromTable(dataTable, dateColumnIndex, valueColumnIndex);
+            return TimeSeries.LoadFromTable(dataTable, dateColumnIndex, valueColumnIndex, isCumulative);
         }
 
         public override object Render(TimeSeries resultObject)

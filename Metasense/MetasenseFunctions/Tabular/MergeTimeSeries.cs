@@ -23,7 +23,7 @@ namespace Metasense.MetasenseFunctions.Tabular
         public override void ResolveInputs()
         {
             inputTimeSeries = new List<TimeSeries>();
-            var handles = InputTimeSeries.As2DArray<string>();
+            var handles = InputTimeSeries.As2DArrayOf<string>();
             foreach (var handle in handles)
             {
                 if (ObjectStore.Contains(handle))

@@ -16,11 +16,13 @@ namespace Metasense.MetasenseFunctions.Tabular
 
         public ExcelArg EndDateTime { get; set; }
 
+        public ExcelArg IntervalBucketSize { get; set; }
+
+        public ExcelArg IsCumulativeSeries { get; set; }
+
         #endregion
 
         #region Resolved Parameters
-
-        public ExcelArg IntervalBucketSize { get; set; }
 
         private string name;
 
@@ -31,6 +33,8 @@ namespace Metasense.MetasenseFunctions.Tabular
         private System.DateTime end;
 
         private long intervalBucketSizeInSeconds;
+
+        private bool isCumulativeSeries;
 
         #endregion
 
@@ -49,11 +53,13 @@ namespace Metasense.MetasenseFunctions.Tabular
             end = EndDateTime.AsDateTime();
 
             intervalBucketSizeInSeconds = IntervalBucketSize.AsInt();
+
+            isCumulativeSeries = IsCumulativeSeries.AsBoolean(false);
         }
 
         public override TimeSeries Calculate()
         {
-            return inputTimeSeries.Bucket(start, end, intervalBucketSizeInSeconds);
+            return inputTimeSeries.BucketExperimental(start, end, intervalBucketSizeInSeconds, isCumulativeSeries);
         }
 
         public override object Render(TimeSeries resultObject)

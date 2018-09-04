@@ -71,15 +71,15 @@ namespace Metasense.MetasenseFunctions.ML
 
             inputHasBias = InputHasBias.AsBoolean(true);
 
-            hiddenLayerConfig = HiddenLayerConfig.As2DArray<object>();
+            hiddenLayerConfig = HiddenLayerConfig.As2DArrayOf<object>();
 
             outputActivationFunction = Util.GetActivationFunction(OutputActivationFunction.AsString("LINEAR"));
 
             outputHasBias = OutputHasBias.AsBoolean(true);
 
-            inputs = Inputs.As2DArray<double>();
+            inputs = Inputs.As2DArrayOf<double>();
 
-            targets = Targets.As2DArray<double>();
+            targets = Targets.As2DArrayOf<double>();
 
             errorTolerance = ErrorTolerance.AsDouble();
 

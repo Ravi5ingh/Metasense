@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Encog.ML.EA.Train;
+using Metasense.Infrastructure;
 using Metasense.Infrastructure.Tabular;
 
 namespace Metasense.Tabular

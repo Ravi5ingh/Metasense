@@ -36,16 +36,6 @@ namespace Metasense.Infrastructure.Tabular
 
         public void Add(DateTime dateTime, double value)
         {
-            //var fakePoint = new TSPoint {Time = dateTime};
-            //if (_ts.ContainsComparableValue(fakePoint, out var index))
-            //{
-            //    var oldPoint = _ts[index];
-            //    _ts[index]  = new TSPoint{Time = dateTime, Value = oldPoint.Value + value};
-            //}
-            //else
-            //{
-            //    _ts.Add(new TSPoint {Time = dateTime, Value = value});
-            //}
             if (_ts.ContainsKey(dateTime))
             {
                 _ts[dateTime] += value;
@@ -53,6 +43,21 @@ namespace Metasense.Infrastructure.Tabular
             else
             {
                 _ts.Add(dateTime, value);
+            }
+        }
+
+        public void AddOrReplace(DateTime dateTime, double value)
+        {
+            if (_ts.ContainsKey(dateTime))
+            {
+                if (value > _ts[dateTime])
+                {
+                    _ts[dateTime] = value;
+                }
+            }
+            else
+            {
+                _ts[dateTime] = value;
             }
         }
 
@@ -95,7 +100,37 @@ namespace Metasense.Infrastructure.Tabular
             return retVal;
         }
 
-        public TimeSeries Bucket(DateTime start, DateTime end, long intervalInSeconds)
+        public TimeSeries BucketExperimental(DateTime start, DateTime end, long intervalInSeconds, bool isCumulative)
+        {
+            if (end <= start)
+            {
+                throw new ArgumentException($"End ({end}) needs to come after Start ({start}) ");
+            }
+
+            var retVal = new TimeSeries();
+            if (isCumulative)
+            {
+                var currentStart = start;
+                var currentEnd = start.AddSeconds(intervalInSeconds);
+                double currentCumulative = 0;
+
+                while (currentEnd <= end)
+                {
+                    var tsCroppedToCurrentBucked = _ts.Where(kvp => kvp.Key >= currentStart && kvp.Key <= currentEnd);
+                    var maxValue = tsCroppedToCurrentBucked.Any() ? tsCroppedToCurrentBucked.Max(kvp => kvp.Value) : currentCumulative;
+                    currentCumulative = maxValue;
+
+                    retVal.Add(currentStart, maxValue);
+
+                    currentStart = currentEnd;
+                    currentEnd = currentStart.AddSeconds(intervalInSeconds);
+                }
+            }
+
+            return retVal;
+        }
+
+        public TimeSeries Bucket(DateTime start, DateTime end, long intervalInSeconds, bool isCumulativeSeries)
         {
             //if (end <= start)
             //{
@@ -120,11 +155,23 @@ namespace Metasense.Infrastructure.Tabular
 
             var retVal = new TimeSeries();
             var croppedTS = _ts.Where(kvp => kvp.Key >= start && kvp.Key <= end);
-            foreach (var kvp in croppedTS)
+            if (isCumulativeSeries)
             {
-                var rem = (int)(kvp.Key - start).TotalSeconds % intervalInSeconds;
-                var tp = kvp.Key.AddSeconds(-rem);
-                retVal.Add(tp, kvp.Value);
+                foreach (var kvp in croppedTS)
+                {
+                    var rem = (int)(kvp.Key - start).TotalSeconds % intervalInSeconds;
+                    var tp = kvp.Key.AddSeconds(-rem);
+                    retVal.AddOrReplace(tp, kvp.Value);
+                }
+            }
+            else
+            {
+                foreach (var kvp in croppedTS)
+                {
+                    var rem = (int)(kvp.Key - start).TotalSeconds % intervalInSeconds;
+                    var tp = kvp.Key.AddSeconds(-rem);
+                    retVal.Add(tp, kvp.Value);
+                }
             }
 
             return retVal;
@@ -201,7 +248,7 @@ namespace Metasense.Infrastructure.Tabular
             return retVal;
         }
 
-        public static TimeSeries LoadFromTable(Table table, int dateColumnIndex, int valueColumnIndex)
+        public static TimeSeries LoadFromTable(Table table, int dateColumnIndex, int valueColumnIndex, bool isCumulative)
         {
             var retVal = new TimeSeries();
 
@@ -219,7 +266,15 @@ namespace Metasense.Infrastructure.Tabular
                     throw new ArgumentException(
                         $"The value '{valueCell}' at row : {i} col : {valueColumnIndex} cannot be parsed as a {typeof(double)}");
                 }
-                retVal.Add(dateTime, value);
+
+                if (isCumulative)
+                {
+                    retVal.AddOrReplace(dateTime, value);
+                }
+                else
+                {
+                    retVal.Add(dateTime, value);
+                }
             }
 
             return retVal;

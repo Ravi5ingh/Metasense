@@ -23,7 +23,7 @@ namespace Metasense.MetasenseFunctions.Statistical
             }
             else
             {
-                inputs = Inputs.As2DArray<double>();
+                inputs = Inputs.As2DArrayOf<double>();
             }
         }
 

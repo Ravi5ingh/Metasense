@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Metasense.Infrastructure;
+﻿using Metasense.Infrastructure;
 using Metasense.Infrastructure.Functions;
 using Metasense.Infrastructure.Tabular;
 using Metasense.Tabular;
@@ -34,7 +29,7 @@ namespace Metasense.MetasenseFunctions.Tabular
 
             sqlConnection = SQLConnection.GetFromStoreAs<SQLConnection>();
 
-            query = SQLQuery.AsString();
+            query = ResolveSQLQueryString(SQLQuery);
         }
 
         public override Table Calculate()
@@ -45,6 +40,22 @@ namespace Metasense.MetasenseFunctions.Tabular
         public override object Render(Table resultObject)
         {
             return ObjectStore.Add(name, resultObject);
+        }
+
+        private static string ResolveSQLQueryString(ExcelArg QueryArg)
+        {
+            var sqlQueryGrid = QueryArg.As2DArrayOf<object>();
+
+            var retVal = string.Empty;
+            foreach (var element in sqlQueryGrid)
+            {
+                if (element is string || element is int || element is double)
+                {
+                    retVal += $" {element}";
+                }
+            }
+
+            return retVal;
         }
     }
 }

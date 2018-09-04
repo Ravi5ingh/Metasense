@@ -65,14 +65,17 @@ namespace Metasense.MetasenseFunctions
             [ExcelArgument(Name = "Date Column Index", Description = "The index of the date column")]
             object dateColumnIndexXl,
             [ExcelArgument(Name = "Value Column Index", Description = "The index of the value column")]
-            object valueColumnIndexXl)
+            object valueColumnIndexXl,
+            [ExcelArgument(Name = "Is Cumulative?", Description = "Is this a cumulative type series? (True / False, Default : False)")]
+            object isCumulativeXl)
         {
             var function = new LoadTimeSeries(Enums.FunctionType.Heavy | Enums.FunctionType.Sticky)
             {
                 Name = Arg(nameXl, "Name"),
                 DataTable = Arg(tableXl, "Data Table"),
                 DateColumnIndex = Arg(dateColumnIndexXl, "Date Column Index"),
-                ValueColumnIndex = Arg(valueColumnIndexXl, "Value Column Index")
+                ValueColumnIndex = Arg(valueColumnIndexXl, "Value Column Index"),
+                IsCumulative = Arg(isCumulativeXl, "Is Cumulative")
             };
 
             return FunctionRunner.Run(function);
@@ -180,7 +183,9 @@ namespace Metasense.MetasenseFunctions
             [ExcelArgument(Name = "End Time", Description = "The end point to take")]
             object endTimeXl,
             [ExcelArgument(Name = "Bucket Size", Description = "The size of the intervals out of which the buckets are made. This is in seconds")]
-            object bucketSizeXl)
+            object bucketSizeXl,
+            [ExcelArgument(Name = "Is Cumulative?", Description = "Is this a cumulative type series? (True / False, Default : False)")]
+            object isCumulativeXl)
         {
             var function = new BucketTimeSeries(Enums.FunctionType.Heavy)
             {
@@ -188,7 +193,8 @@ namespace Metasense.MetasenseFunctions
                 InputTimeSeries = Arg(inputTimeSeriesXl, "Input Time Series"),
                 StartDateTime = Arg(startTimeXl, "Start Date"),
                 EndDateTime = Arg(endTimeXl, "End Date"),
-                IntervalBucketSize = Arg(bucketSizeXl, "Bucket Size")
+                IntervalBucketSize = Arg(bucketSizeXl, "Bucket Size"),
+                IsCumulativeSeries = Arg(isCumulativeXl, "Is Cumulative")
             };
 
             return FunctionRunner.Run(function);
